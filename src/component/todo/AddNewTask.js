@@ -12,17 +12,21 @@ class AddNewTask extends Component {
     }
 
     hendelSubmit = (data) => {
-        if (data !== '') {
-            const test = [...this.state.inputArrey]
-            test.push(data)
+        console.log(data)
+        if (data.inputValue !== '') {
+            const test = [...this.state.inputArrey, data]
             this.setState({ inputArrey: test, inputValue: '' })
         }
     }
+    removeitems = (id) => {
+        let remove = this.state.inputArrey.filter((item) => item.id !== id)
+        this.setState({ inputArrey: remove })
+    }
 
-    
     render() {
+
         return (
-            <div>
+            <div className="container center-align truncate">
                 <Todo
                     hendelSubmit={this.hendelSubmit}
                     hendelChange={this.hendelChange}
@@ -30,6 +34,7 @@ class AddNewTask extends Component {
                 />
                 <AddItemTodo
                     items={this.state.inputArrey}
+                    removeitems={this.removeitems}
                 />
             </div>
         )
