@@ -1,4 +1,4 @@
-import AddNewTask from "./component/todo/AddNewTask";
+import TodoFunction from "./component/todo/TodoFunction";
 import Navbar from "./component/navbar/Navbar";
 
 
@@ -6,7 +6,7 @@ function App() {
   return (
     <div className="App">
       <Navbar/>
-     <AddNewTask/>
+     <TodoFunction/>
     </div>
   );
 }
