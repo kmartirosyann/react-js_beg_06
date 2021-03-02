@@ -3,7 +3,7 @@ import { Row, Col, Button } from 'react-bootstrap'
 
 export default class InputTodo extends Component {
     render() {
-        const { hendelSubmit, hendelChange, inputValue, hendelPress } = this.props
+        const { hendelSubmit, hendelChange, inputValue, hendelPress, active } = this.props
         return (
             <Row  >
                 <Col className="my-3 input-group text-center col-6">
@@ -16,10 +16,12 @@ export default class InputTodo extends Component {
                         value={inputValue}
                         onChange={hendelChange}
                         name="inputValue"
-                        onKeyPress={(e) => hendelPress(e, { inputItem: inputValue, id: Math.random() * 100 ,active : false})}
+                        disabled={active}
+                        onKeyPress={(e) => hendelPress(e, { inputItem: inputValue, id: Math.random() * 100, active: false })}
                     />
-                    <Button onClick={() => hendelSubmit({ inputItem: inputValue, id: Math.random() * 100 ,active : false})}
-
+                    <Button
+                        onClick={() => hendelSubmit({ inputItem: inputValue, id: Math.random() * 100, active: false })}
+                        disabled={active}
                         className="input-group-text btn btn-susser">submit</Button>
                 </Col>
             </Row>

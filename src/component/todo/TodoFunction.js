@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
-import { Col, Container,Row } from 'react-bootstrap'
+import { Col, Container, Row } from 'react-bootstrap'
 import TodoList from './TodoList'
-import Todo from './InputTodo'
+import InputTodo from './InputTodo'
 
 class TodoFunction extends Component {
     state = {
         inputValue: '',
         inputArrey: [],
-        select: [],
-       
+        select: new Set(),
+        active: false
     }
     hendelChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
@@ -17,7 +17,7 @@ class TodoFunction extends Component {
     hendelSubmit = (data) => {
         if (data.inputItem !== '') {
             const test = [...this.state.inputArrey, data]
-            this.setState({ inputArrey: test, inputValue: '' ,active :false})
+            this.setState({ inputArrey: test, inputValue: '', active: false })
         }
     }
     hendelPress = (event, data) => {
@@ -32,43 +32,51 @@ class TodoFunction extends Component {
 
     }
 
-    addSelect = (id) => {
-        let select = [...this.state.select, id]
-        this.setState({ select: select , })
-        let arr = this.state.inputArrey.map((item)=>{
-            if(item.id === id)item.active = true 
-            return item
-        })
-       this.setState({inputArrey:arr})
-    }
+
 
     removeSelect = (e) => {
+        let removeAllSelect
         if (e.key === 'Enter') {
-            let removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.includes(item.id))
-            this.setState({ inputArrey: removeAllSelect })
+            removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item.id))
+
         }
+        removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item.id))
+        this.setState({ inputArrey: removeAllSelect, active: false })
+    }
+
+    hendelechange = (id) => {
+        let mySet = this.state.select
+        if (mySet.has(id)) {
+            mySet.delete(id)
+        } else mySet.add(id)
+        this.setState({ select: mySet })
+        if (mySet.size > 0) {
+            this.setState({ active: true })
+        } else this.setState({ active: false })
     }
 
     render() {
         return (
             <Container className="container center-align truncate">
-            <Row>
-                <Col className="col-6">
-                <h3>Todo list</h3>
-                </Col>
-            </Row>
-                <Todo
+                <Row>
+                    <Col className="col-6">
+                        <h3>Todo list</h3>
+                    </Col>
+                </Row>
+                <InputTodo
                     hendelSubmit={this.hendelSubmit}
                     hendelChange={this.hendelChange}
                     inputValue={this.state.inputValue}
                     hendelPress={this.hendelPress}
+                    active={this.state.active}
                 />
                 <TodoList
 
                     items={this.state.inputArrey}
                     removeitems={this.removeitems}
-                    addRemoveitems={this.addSelect}
                     removeSelect={this.removeSelect}
+                    hendelechange={this.hendelechange}
+                    active={this.state.active}
                 />
             </Container>
         )

@@ -5,8 +5,8 @@ import Navbar from "./component/navbar/Navbar";
 function App() {
   return (
     <div className="App">
-      <Navbar/>
-     <TodoFunction/>
+      <Navbar />
+      <TodoFunction />
     </div>
   );
 }
