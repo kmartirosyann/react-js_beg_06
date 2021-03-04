@@ -59,7 +59,7 @@ class TodoFunction extends Component {
         return (
             <Container className="container center-align truncate">
                 <Row>
-                    <Col className="col-6">
+                    <Col className="col-lg-6">
                         <h3>Todo list</h3>
                     </Col>
                 </Row>

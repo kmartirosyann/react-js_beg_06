@@ -3,15 +3,29 @@ import { Col, Row, Button } from 'react-bootstrap'
 
 
 
-function TodoList({ items, removeitems, removeSelect, active, hendelechange }) {
+ const TodoList = React.memo( ({ 
+     items, 
+     removeitems, 
+     removeSelect, 
+     active, 
+     hendelechange
+     }) => 
+     {
     const itemsArrey = items.map((item, index) => {
         return (
             <Row key={index}>
-                <Col className="input-group col-6 ">
+                <Col className="input-group col-lg-6 ">
 
                     <div >
-                        <span className="input-group-text" style={{ height: '38px' }} id="basic-addon1">
-                            <input type="checkbox" onClick={() => hendelechange(item.id)} />
+                        <span 
+                        className="input-group-text" 
+                        style={{ height: '38px' }} 
+                        id="basic-addon1"
+                        >
+                            <input 
+                            type="checkbox" 
+                            onClick={() => hendelechange(item.id)} 
+                            />
                         </span>
                     </div>
 
@@ -48,12 +62,12 @@ function TodoList({ items, removeitems, removeSelect, active, hendelechange }) {
         <div>
             {items.length !== 0 ? itemsArrey :
                 <Row >
-                    <Col className="input-group col-6 justify-content-md-center">
+                    <Col className="input-group col-lg-6 justify-content-center">
                         <h4>There is no todo</h4>
                     </Col>
                 </Row>}
             <Row>
-                <Col className="input-group col-6 justify-content-md-center ">
+                <Col className="input-group col-6 justify-content-center ">
                     <Button
                         className="input-group-text btn btn-danger my-5 "
                         onClick={removeSelect}
@@ -67,5 +81,6 @@ function TodoList({ items, removeitems, removeSelect, active, hendelechange }) {
         </div>
     )
 }
+ )
 
 export default TodoList
