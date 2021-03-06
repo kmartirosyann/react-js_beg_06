@@ -44,15 +44,29 @@ class TodoFunction extends Component {
         this.setState({ inputArrey: removeAllSelect, active: false })
     }
 
+
+    selectAllTasks = () => {
+        let { select, inputArrey } = this.state
+        for (let key of inputArrey) {
+            if (select.has(key.id)) {
+                select.delete(key.id)
+            } else select.add(key.id)
+        }
+        let chengeActive = inputArrey.map((item) => select.has(item.id) ? { ...item, active: true } : { ...item, active: false })
+        this.setState({ active: !this.state.active, inputArrey: chengeActive })
+    }
+
     hendelechange = (id) => {
-        let mySet = this.state.select
-        if (mySet.has(id)) {
-            mySet.delete(id)
-        } else mySet.add(id)
-        this.setState({ select: mySet })
-        if (mySet.size > 0) {
+        let { select, inputArrey } = this.state
+        if (select.has(id)) {
+            select.delete(id)
+        } else select.add(id)
+        this.setState({ select })
+        if (select.size > 0) {
             this.setState({ active: true })
         } else this.setState({ active: false })
+        let chengeActive = inputArrey.map((item) => !select.has(item.id) ? { ...item, active: false } : { ...item, active: true })
+        this.setState({ inputArrey: chengeActive })
     }
 
     render() {
@@ -76,6 +90,7 @@ class TodoFunction extends Component {
                     removeitems={this.removeitems}
                     removeSelect={this.removeSelect}
                     hendelechange={this.hendelechange}
+                    selectAllTasks={this.selectAllTasks}
                     active={this.state.active}
                 />
             </Container>

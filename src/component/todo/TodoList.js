@@ -8,10 +8,13 @@ import { Col, Row, Button } from 'react-bootstrap'
      removeitems, 
      removeSelect, 
      active, 
-     hendelechange
+     hendelechange,
+     selectAllTasks
      }) => 
      {
+         
     const itemsArrey = items.map((item, index) => {
+
         return (
             <Row key={index}>
                 <Col className="input-group col-lg-6 ">
@@ -24,7 +27,8 @@ import { Col, Row, Button } from 'react-bootstrap'
                         >
                             <input 
                             type="checkbox" 
-                            onClick={() => hendelechange(item.id)} 
+                            onChange={ () => hendelechange(item.id)} 
+                            checked ={item.active}
                             />
                         </span>
                     </div>
@@ -58,6 +62,7 @@ import { Col, Row, Button } from 'react-bootstrap'
 
         )
     })
+    
     return (
         <div>
             {items.length !== 0 ? itemsArrey :
@@ -66,18 +71,35 @@ import { Col, Row, Button } from 'react-bootstrap'
                         <h4>There is no todo</h4>
                     </Col>
                 </Row>}
-            <Row>
+          {items.length !== 0 &&  <Row>
                 <Col className="input-group col-6 justify-content-center ">
+                  {!active ?  <Button
+                    className="input-group-text btn btn-susser m-5 "
+                    onClick={selectAllTasks}
+                    >
+                    Select all tasks
+                    </Button> :
+                    <>
                     <Button
-                        className="input-group-text btn btn-danger my-5 "
+                    className="input-group-text btn btn-susser m-5 "
+                    onClick={selectAllTasks}
+                    >
+                   Cancel
+                    
+                    </Button> 
+                    
+                    <Button
+                        className="input-group-text btn btn-danger m-5 "
                         onClick={removeSelect}
                         disabled={!active}
                     >
                         Delete all todo
                     <i className="bi bi-trash" ></i>
                     </Button>
+                    </>
+     }
                 </Col>
-            </Row>
+            </Row>}
         </div>
     )
 }
