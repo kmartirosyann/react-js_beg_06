@@ -46,11 +46,11 @@ import PropTypes from 'prop-types';
 }
  )
 
- InputTodo.PropTypes={
+ InputTodo.propTypes={
     hendelSubmit : PropTypes.func,
     active : PropTypes.bool, 
     hendelchange :PropTypes.func,
-    inputValue :PropTypes.func ,
+    inputValue :PropTypes.string ,
     hendelPress :PropTypes.func
 }
 export default InputTodo

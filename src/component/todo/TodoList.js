@@ -106,7 +106,7 @@ import PropTypes from 'prop-types';
 }
  )
 
-TodoList.PropTypes={
+TodoList.propTypes={
     items : PropTypes.array, 
     removeitems : PropTypes.func, 
     removeSelect :PropTypes.func, 
