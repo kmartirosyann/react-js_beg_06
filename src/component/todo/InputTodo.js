@@ -1,6 +1,7 @@
 import React from 'react';
 import {_id} from '../functionId'
 import { Row, Col, Button } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
  const InputTodo = React.memo(({ 
     hendelSubmit, 
@@ -44,6 +45,14 @@ import { Row, Col, Button } from 'react-bootstrap';
     }else return true
 }
  )
+
+ InputTodo.PropTypes={
+    hendelSubmit : PropTypes.func,
+    active : PropTypes.bool, 
+    hendelchange :PropTypes.func,
+    inputValue :PropTypes.func ,
+    hendelPress :PropTypes.func
+}
 export default InputTodo
 
 

@@ -26,13 +26,17 @@ class TodoFunction extends Component {
         }
     }
     removeitems = (id) => {
-
+        
         let remove = this.state.inputArrey.filter((item) => item.id !== id)
         this.setState({ inputArrey: remove })
 
     }
 
-
+    inputArreyFun = ()=>{
+        let { select, inputArrey } = this.state
+        let chengeActive = inputArrey.map((item) => select.has(item.id) ? { ...item, active: true } : { ...item, active: false})
+        this.setState({ inputArrey: chengeActive }) 
+    }
 
     removeSelect = (e) => {
         let removeAllSelect
@@ -52,12 +56,19 @@ class TodoFunction extends Component {
                 select.delete(key.id)
             } else select.add(key.id)
         }
-        let chengeActive = inputArrey.map((item) => select.has(item.id) ? { ...item, active: true } : { ...item, active: false })
-        this.setState({ active: !this.state.active, inputArrey: chengeActive })
+       this.inputArreyFun()
+        this.setState({ active: !this.state.active })
+    }
+
+    hendelcansel = () =>{
+        let { select} = this.state
+        select.clear()
+       this.inputArreyFun()
+        this.setState({ active: !this.state.active })
     }
 
     hendelechange = (id) => {
-        let { select, inputArrey } = this.state
+        let { select } = this.state
         if (select.has(id)) {
             select.delete(id)
         } else select.add(id)
@@ -65,8 +76,7 @@ class TodoFunction extends Component {
         if (select.size > 0) {
             this.setState({ active: true })
         } else this.setState({ active: false })
-        let chengeActive = inputArrey.map((item) => !select.has(item.id) ? { ...item, active: false } : { ...item, active: true })
-        this.setState({ inputArrey: chengeActive })
+      this.inputArreyFun()
     }
 
     render() {
@@ -92,6 +102,7 @@ class TodoFunction extends Component {
                     hendelechange={this.hendelechange}
                     selectAllTasks={this.selectAllTasks}
                     active={this.state.active}
+                    hendelcansel = {this.hendelcansel}
                 />
             </Container>
         )

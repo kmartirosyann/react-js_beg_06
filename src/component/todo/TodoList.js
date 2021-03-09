@@ -1,6 +1,6 @@
 import React from 'react'
 import { Col, Row, Button } from 'react-bootstrap'
-
+import PropTypes from 'prop-types';
 
 
  const TodoList = React.memo( ({ 
@@ -9,7 +9,8 @@ import { Col, Row, Button } from 'react-bootstrap'
      removeSelect, 
      active, 
      hendelechange,
-     selectAllTasks
+     selectAllTasks,
+     hendelcansel
      }) => 
      {
          
@@ -82,7 +83,7 @@ import { Col, Row, Button } from 'react-bootstrap'
                     <>
                     <Button
                     className="input-group-text btn btn-susser m-5 "
-                    onClick={selectAllTasks}
+                    onClick={hendelcansel}
                     >
                    Cancel
                     
@@ -104,5 +105,16 @@ import { Col, Row, Button } from 'react-bootstrap'
     )
 }
  )
+
+TodoList.PropTypes={
+    items : PropTypes.array, 
+    removeitems : PropTypes.func, 
+    removeSelect :PropTypes.func, 
+    active : PropTypes.bool, 
+    hendelechange :PropTypes.func,
+    selectAllTasks : PropTypes.func,
+    hendelcansel : PropTypes.func
+}
+
 
 export default TodoList
