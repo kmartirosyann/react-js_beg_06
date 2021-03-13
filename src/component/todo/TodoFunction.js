@@ -2,52 +2,67 @@ import React, { Component } from 'react'
 import { Col, Container, Row } from 'react-bootstrap'
 import TodoList from './TodoList'
 import InputTodo from './InputTodo'
+import ModalComponnent from '../modal/ModalComponnent'
 
 class TodoFunction extends Component {
     state = {
         inputValue: '',
         inputArrey: [],
         select: new Set(),
-        active: false
+        active: false,
+        show:false,
+        modal:false,
+        index:'',
+        text:''
     }
     hendelChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
     }
 
+    // add inputArrey 
+
     hendelSubmit = (data) => {
-        if (data.inputItem !== '') {
-            const test = [...this.state.inputArrey, data]
-            this.setState({ inputArrey: test, inputValue: '', active: false })
+        const {index,inputArrey} =this.state
+        if (data.inputItem !== '' && data.text !== '') {
+            if(index !== ''){
+                 let input =inputArrey.map(el => (
+                        el.id === index ? el = data : el))
+                  this.setState({inputArrey:input , index:''})     
+                this.setState({  inputValue: '',text:'', active: false,show:false })
+            } else {
+            const test = [...inputArrey, data]
+            this.setState({ inputArrey: test, inputValue: '',text:'', active: false })
+            }
         }
     }
+    //add enter inputArrey
     hendelPress = (event, data) => {
         if (event.key === 'Enter') {
             this.hendelSubmit(data)
         }
     }
+    //delete one item 
+
     removeitems = (id) => {
-        
-        let remove = this.state.inputArrey.filter((item) => item.id !== id)
-        this.setState({ inputArrey: remove })
+        let {select} = this.state
+         let selectId = select.add(id)
+         this.setState({select:selectId})
+         this.allModallDelete()
 
     }
-
-    inputArreyFun = ()=>{
+     // cheking all inputcheck
+    inputArreyFun = () => {
         let { select, inputArrey } = this.state
-        let chengeActive = inputArrey.map((item) => select.has(item.id) ? { ...item, active: true } : { ...item, active: false})
-        this.setState({ inputArrey: chengeActive }) 
+        let chengeActive = inputArrey.map((item) => select.has(item.id) ? { ...item, active: true } : { ...item, active: false })
+        this.setState({ inputArrey: chengeActive })
     }
-
-    removeSelect = (e) => {
-        let removeAllSelect
-        if (e.key === 'Enter') {
-            removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item.id))
-
-        }
-        removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item.id))
+   // delete all items
+    removeSelect = () => {       
+        let removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item.id))
         this.setState({ inputArrey: removeAllSelect, active: false })
     }
-
+    
+    // add all id in select
 
     selectAllTasks = () => {
         let { select, inputArrey } = this.state
@@ -56,15 +71,23 @@ class TodoFunction extends Component {
                 select.delete(key.id)
             } else select.add(key.id)
         }
-       this.inputArreyFun()
+        this.inputArreyFun()
+        this.setState({ active: !this.state.active })
+    }
+    
+    //cansel one inputcheced
+
+    hendelcansel = () => {
+        let { select } = this.state
+        select.clear()
+        this.inputArreyFun()
         this.setState({ active: !this.state.active })
     }
 
-    hendelcansel = () =>{
-        let { select} = this.state
-        select.clear()
-       this.inputArreyFun()
-        this.setState({ active: !this.state.active })
+    //open modal input
+
+    handleClose =()=>{
+        this.setState({show:!this.state.show})
     }
 
     hendelechange = (id) => {
@@ -76,34 +99,64 @@ class TodoFunction extends Component {
         if (select.size > 0) {
             this.setState({ active: true })
         } else this.setState({ active: false })
-      this.inputArreyFun()
+        this.inputArreyFun()
+    }
+   
+    //delete || censel item modal 
+
+    responsDelete =( bol)=>{
+        if(bol === true) {
+         this.removeSelect()
+        }else this.hendelcansel()
+        this.setState({modal:!this.state.modal,active: false })
+    }
+   
+   //open modal
+
+    allModallDelete = ()=>{
+        this.setState({modal:!this.state.modal }) 
+    }
+
+    editItem = (item)=>{
+     const {inputArrey,index}=this.state
+     let edit = inputArrey.find((el)=>el.id === item).id
+     this.handleClose()
+   this.setState({index:edit})
     }
 
     render() {
+
         return (
             <Container className="container center-align truncate">
-                <Row>
+              <ModalComponnent 
+              modal = {this.state.modal}
+              responsDelete={this.responsDelete}/>:
+              <>
+                <Row className="justify-content-center">
                     <Col className="col-lg-6">
                         <h3>Todo list</h3>
                     </Col>
                 </Row>
                 <InputTodo
+                    {...this.state}
                     hendelSubmit={this.hendelSubmit}
                     hendelChange={this.hendelChange}
-                    inputValue={this.state.inputValue}
                     hendelPress={this.hendelPress}
-                    active={this.state.active}
+                    handleClose = {this.handleClose}
+                    
                 />
                 <TodoList
-
-                    items={this.state.inputArrey}
+                    {...this.state}
+                    editItem = {this.editItem}
+                    allModallDelete={this.allModallDelete}
                     removeitems={this.removeitems}
-                    removeSelect={this.removeSelect}
+                    responsDelete={this.responsDelete}
                     hendelechange={this.hendelechange}
                     selectAllTasks={this.selectAllTasks}
-                    active={this.state.active}
-                    hendelcansel = {this.hendelcansel}
+                    hendelcansel={this.hendelcansel}
                 />
+                </>
+    
             </Container>
         )
     }
