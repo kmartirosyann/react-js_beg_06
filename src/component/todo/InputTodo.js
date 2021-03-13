@@ -12,7 +12,8 @@ const InputTodo = React.memo(({
     handleClose,
     show ,
     text,
-    index
+    index,
+    active
     }) => {
     const buttonSbmit = () => {
         return hendelSubmit({ inputItem: inputValue, id: _id(),text : text, active: false })
@@ -20,13 +21,17 @@ const InputTodo = React.memo(({
     return (
         <Row className="justify-content-center" >
             <Col className="my-3 input-group justify-content-center col-lg-6">
-                <Button variant="primary" onClick={handleClose}>
+                <Button 
+                variant="primary"
+                 onClick={handleClose}
+                 disabled={active}
+                 >
                    {index === '' ? "Add new item": "Update this item"}
                 </Button>
 
                 <Modal show={show} onHide={handleClose} centered>
                     <Modal.Header closeButton>
-                        <Modal.Title>Modal heading</Modal.Title>
+                        <Modal.Title>Add new item</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <input
@@ -65,12 +70,16 @@ const InputTodo = React.memo(({
 }
 )
 
+
 InputTodo.propTypes = {
+    buttonSbmit:PropTypes.func,
     hendelSubmit: PropTypes.func,
-    show: PropTypes.bool,
-    hendelchange: PropTypes.func,
+    handleClose:PropTypes.func,  
+    hendelChange: PropTypes.func,
     inputValue: PropTypes.string,
     hendelPress: PropTypes.func,
+    active:PropTypes.bool,
+    show: PropTypes.bool,
     index:PropTypes.string,
     text:PropTypes.string,
 }

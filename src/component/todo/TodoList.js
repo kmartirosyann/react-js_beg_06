@@ -100,14 +100,16 @@ import PropTypes from 'prop-types';
 }
  )
 
+
 TodoList.propTypes={
-    items : PropTypes.array, 
+    inputArrey : PropTypes.array, 
     removeitems : PropTypes.func, 
     responsDelete :PropTypes.func, 
-    active : PropTypes.bool, 
+    allModallDelete:PropTypes.func, 
     hendelechange :PropTypes.func,
     selectAllTasks : PropTypes.func,
-    hendelcansel : PropTypes.func
+    hendelcansel : PropTypes.func,
+    active : PropTypes.bool, 
 }
 
 

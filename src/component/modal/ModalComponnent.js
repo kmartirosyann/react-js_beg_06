@@ -1,5 +1,6 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
+import PropTypes from 'prop-types';
 
 function ModalComponnent({responsDelete,modal}) {
   const handleClose =()=>{
@@ -9,15 +10,20 @@ function ModalComponnent({responsDelete,modal}) {
   return (
     <Modal show={modal} onHide={handleClose}>
       <Modal.Header closeButton>
+      Are you sure want delete this item?
       </Modal.Header>
-      <Modal.Body>Woohoo, you're reading this text in a modal!</Modal.Body>
       <Modal.Footer>
         <Button variant="primary" onClick={() => responsDelete(false)}>No</Button>
-        <Button variant="secondary" onClick={() => responsDelete(true)} >Yes</Button>
+        <Button variant="danger" onClick={() => responsDelete(true)} >Yes</Button>
       </Modal.Footer>
     </Modal>
   )
 
+}
+ModalComponnent.prototype={
+  responsDelete:PropTypes.func,
+  modal:PropTypes.bool,
+  handleClose:PropTypes.func,
 }
 
 

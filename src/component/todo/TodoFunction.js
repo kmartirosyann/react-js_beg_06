@@ -3,6 +3,7 @@ import { Col, Container, Row } from 'react-bootstrap'
 import TodoList from './TodoList'
 import InputTodo from './InputTodo'
 import ModalComponnent from '../modal/ModalComponnent'
+import PropTypes from 'prop-types';
 
 class TodoFunction extends Component {
     state = {
@@ -23,16 +24,16 @@ class TodoFunction extends Component {
 
     hendelSubmit = (data) => {
         const {index,inputArrey} =this.state
-        if (data.inputItem !== '' && data.text !== '') {
+        if (( data.inputItem !== "") && ( data.text !== '')) {
             if(index !== ''){
                  let input =inputArrey.map(el => (
                         el.id === index ? el = data : el))
-                  this.setState({inputArrey:input , index:''})     
-                this.setState({  inputValue: '',text:'', active: false,show:false })
+                  this.setState({inputArrey:input , index:''})    
             } else {
             const test = [...inputArrey, data]
-            this.setState({ inputArrey: test, inputValue: '',text:'', active: false })
+            this.setState({ inputArrey: test })
             }
+            this.setState({  inputValue: '',text:'', active: false,show:false })
         }
     }
     //add enter inputArrey
@@ -118,10 +119,12 @@ class TodoFunction extends Component {
     }
 
     editItem = (item)=>{
-     const {inputArrey,index}=this.state
-     let edit = inputArrey.find((el)=>el.id === item).id
+     const {inputArrey}=this.state
+     let edit = inputArrey.find((el)=>el.id === item)
+     const {inputItem,text,id}=edit
      this.handleClose()
-   this.setState({index:edit})
+   this.setState({index:id,inputValue:inputItem,text})
+   
     }
 
     render() {
@@ -162,5 +165,26 @@ class TodoFunction extends Component {
     }
 }
 
+TodoFunction.prototype={
+    inputValue: PropTypes.string,
+    inputArrey:PropTypes.array ,
+    select: PropTypes.object,
+    active: PropTypes.bool,
+    show:PropTypes.bool,
+    modal:PropTypes.bool,
+    index:PropTypes.string,
+    text:PropTypes.string,
+    editItem :PropTypes.func,
+    allModallDelete:PropTypes.func,
+    removeitems:PropTypes.func,
+    responsDelete:PropTypes.func,
+    hendelechange:PropTypes.func,
+    selectAllTasks:PropTypes.func,
+    hendelcansel:PropTypes.func,
+    hendelSubmit:PropTypes.func,
+    hendelChange:PropTypes.func,
+    hendelPress:PropTypes.func,
+    handleClose :PropTypes.func,             
+}
 
 export default TodoFunction
