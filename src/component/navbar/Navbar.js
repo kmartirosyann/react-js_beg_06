@@ -1,4 +1,5 @@
 import React from 'react'
+import { NavLink } from 'react-router-dom'
 
 
 
@@ -7,24 +8,20 @@ export default function Navbar() {
 
 <nav className="primary navbar navbar-expand-lg navbar-light bg-dark" >
   <div className=" primary container-fluid">
-    <a className="navbar-Light" href="#">Navbar</a>
-    <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span className="navbar-toggler-icon"></span>
-    </button>
+    <NavLink className="navbar-Light" to= '/home'>Home</NavLink>
+    
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item">
-          <a className="nav-link active" aria-current="page" href="#">Home</a>
+          <NavLink className="nav-link active" aria-current="page" to="/signin">Signin</NavLink>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Features</a>
+        <NavLink className="nav-link active" aria-current="page" to="/siginup">Siginup</NavLink>
         </li>
         <li className="nav-item">
-          <a className="nav-link" href="#">Pricing</a>
+        <NavLink className="nav-link active" aria-current="page" to="/todo">Todo</NavLink>
         </li>
-        <li className="nav-item">
-          <a className="nav-link disabled" href="#" tabIndex="-1" aria-disabled="true">Disabled</a>
-        </li>
+       
       </ul>
     </div>
   </div>

@@ -3,18 +3,29 @@ import { Col, Container, Row } from 'react-bootstrap'
 import TodoList from './TodoList'
 import InputTodo from './InputTodo'
 import ModalComponnent from '../modal/ModalComponnent'
-import PropTypes from 'prop-types';
+
 
 class TodoFunction extends Component {
     state = {
-        inputValue: '',
+        title: '',
         inputArrey: [],
         select: new Set(),
         active: false,
-        show:false,
-        modal:false,
-        index:'',
-        text:''
+        show: false,
+        modal: false,
+        index: '',
+        description: ''
+    }
+
+
+    componentDidMount() {
+        fetch('http://localhost:3001/task', {
+            method: "GET"
+        })
+            .then(res => res.json())
+            .then(date =>
+                this.setState({ inputArrey: date })
+            )
     }
     hendelChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
@@ -23,17 +34,37 @@ class TodoFunction extends Component {
     // add inputArrey 
 
     hendelSubmit = (data) => {
-        const {index,inputArrey} =this.state
-        if (( data.inputItem !== "") && ( data.text !== '')) {
-            if(index !== ''){
-                 let input =inputArrey.map(el => (
-                        el.id === index ? el = data : el))
-                  this.setState({inputArrey:input , index:''})    
+        const { index, inputArrey, title, description } = this.state
+        if ((data.title !== "") && (data.description !== '')) {
+            if (index !== '') {
+                let input = inputArrey.map(el => (
+                    el._id === index ? el = data : el))
+                fetch(`http://localhost:3001/task/${index}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title, description })
+                })
+                    .then(res => res.json())
+                    // .then(data => console.log(data))
+                    .catch(err => {
+                        if (err)
+                            throw err
+                    })
+                this.setState({ inputArrey: input, index: '' })
             } else {
-            const test = [...inputArrey, data]
-            this.setState({ inputArrey: test })
+                fetch('http://localhost:3001/task', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ title: data.title, description: data.description })
+                })
+                    .then(res => res.json())
+                // .then(data => console.log(data))
+
+                const test = [...inputArrey, data]
+                this.setState({ inputArrey: test })
             }
-            this.setState({  inputValue: '',text:'', active: false,show:false })
+
+            this.setState({ title: '', description: '', active: false, show: false })
         }
     }
     //add enter inputArrey
@@ -45,37 +76,50 @@ class TodoFunction extends Component {
     //delete one item 
 
     removeitems = (id) => {
-        let {select} = this.state
-         let selectId = select.add(id)
-         this.setState({select:selectId})
-         this.allModallDelete()
+        let { select } = this.state
+        let selectId = select.add(id)
+        this.setState({ select: selectId })
+        this.allModallDelete()
 
     }
-     // cheking all inputcheck
+    // cheking all inputcheck
     inputArreyFun = () => {
         let { select, inputArrey } = this.state
-        let chengeActive = inputArrey.map((item) => select.has(item.id) ? { ...item, active: true } : { ...item, active: false })
+        let chengeActive = inputArrey.map((item) => select.has(item._id) ? { ...item, active: true } : { ...item, active: false })
         this.setState({ inputArrey: chengeActive })
     }
-   // delete all items
-    removeSelect = () => {       
-        let removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item.id))
+    // delete all items
+    removeSelect = () => {
+        const { select } = this.state
+        for (let key of select) {
+            fetch(`http://localhost:3001/task/${key}`, {
+                method: "DELETE"
+            })
+                .then(res => res.json())
+                // .then(date => console.log(date))
+                .catch(err => {
+                    if (err)
+                        throw err
+                })
+        }
+        let removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item._id))
+
         this.setState({ inputArrey: removeAllSelect, active: false })
     }
-    
+
     // add all id in select
 
     selectAllTasks = () => {
         let { select, inputArrey } = this.state
         for (let key of inputArrey) {
-            if (select.has(key.id)) {
-                select.delete(key.id)
-            } else select.add(key.id)
+            if (select.has(key._id)) {
+                select.delete(key._id)
+            } else select.add(key._id)
         }
         this.inputArreyFun()
         this.setState({ active: !this.state.active })
     }
-    
+
     //cansel one inputcheced
 
     hendelcansel = () => {
@@ -87,8 +131,8 @@ class TodoFunction extends Component {
 
     //open modal input
 
-    handleClose =()=>{
-        this.setState({show:!this.state.show})
+    handleClose = () => {
+        this.setState({ show: !this.state.show })
     }
 
     hendelechange = (id) => {
@@ -102,89 +146,69 @@ class TodoFunction extends Component {
         } else this.setState({ active: false })
         this.inputArreyFun()
     }
-   
+
     //delete || censel item modal 
 
-    responsDelete =( bol)=>{
-        if(bol === true) {
-         this.removeSelect()
-        }else this.hendelcansel()
-        this.setState({modal:!this.state.modal,active: false })
-    }
-   
-   //open modal
-
-    allModallDelete = ()=>{
-        this.setState({modal:!this.state.modal }) 
+    responsDelete = (bol) => {
+        if (bol === true) {
+            this.removeSelect()
+        } else this.hendelcansel()
+        this.setState({ modal: !this.state.modal, active: false })
     }
 
-    editItem = (item)=>{
-     const {inputArrey}=this.state
-     let edit = inputArrey.find((el)=>el.id === item)
-     const {inputItem,text,id}=edit
-     this.handleClose()
-   this.setState({index:id,inputValue:inputItem,text})
-   
+    //open modal
+
+    allModallDelete = () => {
+        this.setState({ modal: !this.state.modal })
+    }
+
+    editItem = (item) => {
+        const { inputArrey } = this.state
+        let edit = inputArrey.find((el) => el._id === item)
+        const { title, description, _id } = edit
+        this.handleClose()
+        this.setState({ index: _id, title, description })
+
     }
 
     render() {
 
         return (
             <Container className="container center-align truncate">
-              <ModalComponnent 
-              modal = {this.state.modal}
-              responsDelete={this.responsDelete}/>:
-              <>
-                <Row className="justify-content-center">
-                    <Col className="col-lg-6">
-                        <h3>Todo list</h3>
-                    </Col>
-                </Row>
-                <InputTodo
-                    {...this.state}
-                    hendelSubmit={this.hendelSubmit}
-                    hendelChange={this.hendelChange}
-                    hendelPress={this.hendelPress}
-                    handleClose = {this.handleClose}
-                    
-                />
-                <TodoList
-                    {...this.state}
-                    editItem = {this.editItem}
-                    allModallDelete={this.allModallDelete}
-                    removeitems={this.removeitems}
-                    responsDelete={this.responsDelete}
-                    hendelechange={this.hendelechange}
-                    selectAllTasks={this.selectAllTasks}
-                    hendelcansel={this.hendelcansel}
-                />
+                <ModalComponnent
+                    modal={this.state.modal}
+                    responsDelete={this.responsDelete} />
+                <>
+                    <Row className="justify-content-center">
+                        <Col className="col-lg-2">
+                            <h3>Todo list</h3>
+                        </Col>
+                    </Row>
+                    <InputTodo
+                        {...this.state}
+                        hendelSubmit={this.hendelSubmit}
+                        hendelChange={this.hendelChange}
+                        hendelPress={this.hendelPress}
+                        handleClose={this.handleClose}
+
+                    />
+                    <TodoList
+                        {...this.state}
+                        editItem={this.editItem}
+                        allModallDelete={this.allModallDelete}
+                        removeitems={this.removeitems}
+                        responsDelete={this.responsDelete}
+                        hendelechange={this.hendelechange}
+                        selectAllTasks={this.selectAllTasks}
+                        hendelcansel={this.hendelcansel}
+                    />
                 </>
-    
+
             </Container>
         )
     }
 }
 
-TodoFunction.prototype={
-    inputValue: PropTypes.string,
-    inputArrey:PropTypes.array ,
-    select: PropTypes.object,
-    active: PropTypes.bool,
-    show:PropTypes.bool,
-    modal:PropTypes.bool,
-    index:PropTypes.string,
-    text:PropTypes.string,
-    editItem :PropTypes.func,
-    allModallDelete:PropTypes.func,
-    removeitems:PropTypes.func,
-    responsDelete:PropTypes.func,
-    hendelechange:PropTypes.func,
-    selectAllTasks:PropTypes.func,
-    hendelcansel:PropTypes.func,
-    hendelSubmit:PropTypes.func,
-    hendelChange:PropTypes.func,
-    hendelPress:PropTypes.func,
-    handleClose :PropTypes.func,             
-}
+
 
 export default TodoFunction

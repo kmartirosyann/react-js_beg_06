@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
      editItem,
      }) => 
      {
-         
+    
     const itemsArrey =inputArrey && inputArrey.map((item, index) => {
 
         return (
@@ -22,16 +22,16 @@ import PropTypes from 'prop-types';
                 <Col key={index} className="input-group col-lg-4 ">
                 <Modal.Dialog  style= {{width : "100%"}}>
                     <Modal.Header >
-                        <Modal.Title>{item.inputItem}</Modal.Title>
+                        <Modal.Title>{item.title}</Modal.Title>
                         <input 
                         type="checkbox" 
-                        onChange={ () => hendelechange(item.id)} 
+                        onChange={ () => hendelechange(item._id)} 
                         checked ={item.active}
                          />
                     </Modal.Header>
 
                     <Modal.Body className="text-left">
-                        <p style={{lineBreak: "anywhere",overflow: "auto", height: "10vh"}}>{item.text}</p>
+                        <p style={{lineBreak: "anywhere",overflow: "auto", height: "10vh"}}>{item.description}</p>
                     </Modal.Body>
 
                     <Modal.Footer>
@@ -39,13 +39,13 @@ import PropTypes from 'prop-types';
                         <Button 
                         className={"btn-danger  input-group-text btn btn-danger"}
                         disabled={active}
-                        onClick = {()=>editItem(item.id)}
+                        onClick = {()=>editItem(item._id)}
                         > 
                         <i className=" bi bi-pin-angle"></i>
                         </Button>
                         <Button  
                         className="input-group-text btn btn-danger"
-                        onClick={() => removeitems(item.id)}
+                        onClick={() => removeitems(item._id)}
                         disabled={active}
                         > 
                         <i className="bi bi-trash" ></i>
