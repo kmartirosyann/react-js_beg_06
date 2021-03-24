@@ -1,6 +1,8 @@
 import React from 'react'
 import { Col, Row, Button ,Modal} from 'react-bootstrap'
+import TodoLoader from '../loader/TodoLoader';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 
  const TodoList = React.memo( ({ 
@@ -12,9 +14,9 @@ import PropTypes from 'prop-types';
      selectAllTasks,
      hendelcansel,
      editItem,
+     isLoader,
      }) => 
      {
-    
     const itemsArrey =inputArrey && inputArrey.map((item, index) => {
 
         return (
@@ -22,7 +24,7 @@ import PropTypes from 'prop-types';
                 <Col key={index} className="input-group col-lg-4 ">
                 <Modal.Dialog  style= {{width : "100%"}}>
                     <Modal.Header >
-                        <Modal.Title>{item.title}</Modal.Title>
+                      <Link to={`/sinlPach/${item._id}`}> <Modal.Title>{item.title}</Modal.Title></Link> 
                         <input 
                         type="checkbox" 
                         onChange={ () => hendelechange(item._id)} 
@@ -58,8 +60,15 @@ import PropTypes from 'prop-types';
    
     return (
         <div>
-             
-            {inputArrey.length !== 0 ? <Row  className="justify-content-center"> {itemsArrey} </Row>:
+            { isLoader ?<Row  className="justify-content-center">
+                            <Col className="input-group col-lg-4">
+                                <TodoLoader/> 
+                            </Col>  
+                            <Col className="input-group col-lg-4">
+                                <TodoLoader/> 
+                            </Col> 
+                    </Row>:
+            inputArrey.length !== 0 ? <Row  className="justify-content-center"> {itemsArrey} </Row>:
                 <Row className="justify-content-center">
                     <Col className="input-group col-lg-6 justify-content-center">
                         <h4>There is no todo</h4>

@@ -7,7 +7,6 @@ const InputTodo = React.memo(({
     hendelSubmit,
     hendelChange,
     title,
-    hendelPress,
     handleClose,
     show,
     description,
@@ -25,7 +24,7 @@ const InputTodo = React.memo(({
                     onClick={handleClose}
                     disabled={active}
                 >
-                    {index === '' ? "Add new item" : "Update this item"}
+                    {index == "" ? "Add new item" : "Update this item"}
                 </Button>
 
                 <Modal show={show} onHide={handleClose} centered>
@@ -42,7 +41,7 @@ const InputTodo = React.memo(({
                             value={title}
                             onChange={hendelChange}
                             name="title"
-                            onKeyPress={(e) => hendelPress(e, { title, active: false })}
+                            
                         /></Modal.Body>
                     <Modal.Body>
                         <Form.Control as="textarea" rows={3}

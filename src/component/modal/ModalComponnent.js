@@ -1,12 +1,14 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import PropTypes from 'prop-types';
+import { withRouter } from 'react-router-dom';
+
 
 function ModalComponnent({responsDelete,modal}) {
   const handleClose =()=>{
     responsDelete(false)
   }
-
+ 
   return (
     <Modal show={modal} onHide={handleClose}>
       <Modal.Header closeButton>
@@ -27,4 +29,4 @@ ModalComponnent.prototype={
 }
 
 
-export default ModalComponnent
+export default withRouter (ModalComponnent)

@@ -14,7 +14,8 @@ class TodoFunction extends Component {
         show: false,
         modal: false,
         index: '',
-        description: ''
+        description: '',
+        isLoader:true
     }
 
 
@@ -26,6 +27,10 @@ class TodoFunction extends Component {
             .then(date =>
                 this.setState({ inputArrey: date })
             )
+            .catch(err=>console.log("error",err))
+            .finally(() => setTimeout(() => {
+                this.setState({ isLoader: false })
+            }, 1000))
     }
     hendelChange = (e) => {
         this.setState({ [e.target.name]: e.target.value })
@@ -35,36 +40,48 @@ class TodoFunction extends Component {
 
     hendelSubmit = (data) => {
         const { index, inputArrey, title, description } = this.state
+        let editUp = {title,description,index}
         if ((data.title !== "") && (data.description !== '')) {
             if (index !== '') {
-                let input = inputArrey.map(el => (
-                    el._id === index ? el = data : el))
+             let arr = inputArrey.map(el => (
+                    el._id === index ?  el = editUp: el))
                 fetch(`http://localhost:3001/task/${index}`, {
                     method: 'PUT',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title, description })
                 })
                     .then(res => res.json())
-                    // .then(data => console.log(data))
-                    .catch(err => {
-                        if (err)
-                            throw err
+                    .then(data =>{  
+                        if (data.err)
+                        throw data.err
+                        
                     })
-                this.setState({ inputArrey: input, index: '' })
+                    .catch(err => console.log("error",err))
+                    .finally(() => setTimeout(() => {
+                        this.setState({ isLoader: false })
+                    }, 1000))
+                    this.setState({ inputArrey:arr,index: '' })    
+                        
+                    
             } else {
                 fetch('http://localhost:3001/task', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title: data.title, description: data.description })
                 })
-                    .then(res => res.json())
-                // .then(data => console.log(data))
-
-                const test = [...inputArrey, data]
-                this.setState({ inputArrey: test })
+                 .then(res => res.json())
+                 .then(data => {let arr = [...inputArrey,data]
+                    this.setState({ inputArrey: arr })
+                     if(data.err) 
+                       throw data.err})
+                 .catch(err => console.log("error", err))
+                 .finally(() => setTimeout(() => {
+                    this.setState({ isLoader: false })
+                }, 1000))
+               
             }
 
-            this.setState({ title: '', description: '', active: false, show: false })
+            this.setState({ title: '', description: '',index:'', active: false, show: false })
         }
     }
     //add enter inputArrey
@@ -90,21 +107,45 @@ class TodoFunction extends Component {
     }
     // delete all items
     removeSelect = () => {
-        const { select } = this.state
+        const { select,inputArrey } = this.state
+        let arr = []
         for (let key of select) {
-            fetch(`http://localhost:3001/task/${key}`, {
-                method: "DELETE"
+         arr.push(key)
+        }
+        if(arr.length >1){
+            fetch(`http://localhost:3001/task`, {
+                method: "PATCH",
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ tasks: arr })
             })
                 .then(res => res.json())
-                // .then(date => console.log(date))
-                .catch(err => {
-                    if (err)
-                        throw err
+                .then(data => {
+                    if(data.err) 
+                    throw data.err
                 })
-        }
-        let removeAllSelect = this.state.inputArrey.filter((item) => !this.state.select.has(item._id))
+                .catch(err => console.log(err))
+                .finally(() => setTimeout(() => {
+                    this.setState({ isLoader: false })
+                }, 1000))
 
-        this.setState({ inputArrey: removeAllSelect, active: false })
+            }else if(arr.length === 1){
+                fetch(`http://localhost:3001/task/${arr}`, {
+                    method: "DELETE",
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        if(data.err) 
+                        throw data.err
+                    })
+                    .catch(err => console.log(err))
+                    .finally(() => setTimeout(() => {
+                        this.setState({ isLoader: false })
+                    }, 1000))
+            }
+            
+        let removeAllSelect = inputArrey.filter((item) => !this.state.select.has(item._id))
+
+        this.setState({ inputArrey: removeAllSelect,index:'', active: false })
     }
 
     // add all id in select
@@ -117,7 +158,7 @@ class TodoFunction extends Component {
             } else select.add(key._id)
         }
         this.inputArreyFun()
-        this.setState({ active: !this.state.active })
+        this.setState({ active: !this.state.active ,index:''})
     }
 
     //cansel one inputcheced
@@ -126,13 +167,13 @@ class TodoFunction extends Component {
         let { select } = this.state
         select.clear()
         this.inputArreyFun()
-        this.setState({ active: !this.state.active })
+        this.setState({ active: !this.state.active ,index:''})
     }
 
     //open modal input
 
     handleClose = () => {
-        this.setState({ show: !this.state.show })
+        this.setState({ show: !this.state.show ,index:''})
     }
 
     hendelechange = (id) => {
@@ -153,13 +194,13 @@ class TodoFunction extends Component {
         if (bol === true) {
             this.removeSelect()
         } else this.hendelcansel()
-        this.setState({ modal: !this.state.modal, active: false })
+        this.setState({ modal: !this.state.modal,index:'', active: false })
     }
 
     //open modal
 
     allModallDelete = () => {
-        this.setState({ modal: !this.state.modal })
+        this.setState({ modal: !this.state.modal ,index:''})
     }
 
     editItem = (item) => {
@@ -172,7 +213,6 @@ class TodoFunction extends Component {
     }
 
     render() {
-
         return (
             <Container className="container center-align truncate">
                 <ModalComponnent
