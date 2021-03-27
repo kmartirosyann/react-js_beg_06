@@ -6,6 +6,7 @@ import Signin from "./component/login/Signin";
 import SiginUp from "./component/login/SiginUp";
 import NotFoutnd from "./component/notFound/NotFoutnd";
 import SinglPach from "./component/singlPach/SinglPach";
+import Contact from "./component/contact/Contact";
 
 
 function App() {
@@ -15,9 +16,10 @@ function App() {
       <Router>
         <Navbar />
         <Switch>
+          <Route path="/contact" component={Contact} exact />
           <Route path="/siginup" component={SiginUp} exact />
           <Route path="/todo" component={TodoFunction} exact />
-          <Route path="/home" component={Home} exact />
+          <Route path="/" component={Home} exact />
           <Route path="/signin" component={Signin} exact />
           <Route path="/sinlPach/:id" component={SinglPach} exact />
           <Route path="/404" component={NotFoutnd} exact />

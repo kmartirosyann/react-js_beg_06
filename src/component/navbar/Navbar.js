@@ -8,8 +8,7 @@ export default function Navbar() {
 
 <nav className="primary navbar navbar-expand-lg navbar-light bg-dark" >
   <div className=" primary container-fluid">
-    <NavLink className="navbar-Light" to= '/home'>Home</NavLink>
-    
+    <NavLink className="navbar-Light" to= '/'>Home</NavLink>    
     <div className="collapse navbar-collapse" id="navbarNav">
       <ul className="navbar-nav">
         <li className="nav-item">
@@ -21,7 +20,9 @@ export default function Navbar() {
         <li className="nav-item">
         <NavLink className="nav-link active" aria-current="page" to="/todo">Todo</NavLink>
         </li>
-       
+        <li className="nav-item">
+        <NavLink className="nav-link active" aria-current="page" to="/contact">Contact</NavLink>
+        </li>
       </ul>
     </div>
   </div>

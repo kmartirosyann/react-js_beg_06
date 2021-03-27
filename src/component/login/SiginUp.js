@@ -19,7 +19,7 @@ class SiginUp extends Component {
             body: JSON.stringify({ email, password })
         })
             .then(res => res.json())
-            // .then(data => console.log(data))
+             .then(data => console.log(data))
             .catch(err => {
                 if (err) {
                     this.setState({ mesage: "You not register" })
