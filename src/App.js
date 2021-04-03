@@ -7,12 +7,14 @@ import SiginUp from "./component/login/SiginUp";
 import NotFoutnd from "./component/notFound/NotFoutnd";
 import SinglPach from "./component/singlPach/SinglPach";
 import Contact from "./component/contact/Contact";
+import { MovieProvider } from "./component/context/MovieContext";
 
 
 function App() {
 
   return (
     <div >
+      <MovieProvider>
       <Router>
         <Navbar />
         <Switch>
@@ -21,12 +23,12 @@ function App() {
           <Route path="/todo" component={TodoFunction} exact />
           <Route path="/" component={Home} exact />
           <Route path="/signin" component={Signin} exact />
-          <Route path="/sinlPach/:id" component={SinglPach} exact />
+          <Route path="/sinlPach/:id" exact ><SinglPach/></Route>
           <Route path="/404" component={NotFoutnd} exact />
           <Redirect to="/404"/>
         </Switch>
       </Router>
-
+      </MovieProvider>
     </div>
   );
 }

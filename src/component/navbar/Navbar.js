@@ -6,22 +6,63 @@ import { NavLink } from 'react-router-dom'
 export default function Navbar() {
     return (
 
-<nav className="primary navbar navbar-expand-lg navbar-light bg-dark" >
-  <div className=" primary container-fluid">
-    <NavLink className="navbar-Light" to= '/'>Home</NavLink>    
-    <div className="collapse navbar-collapse" id="navbarNav">
-      <ul className="navbar-nav">
+<nav className="Light navbar navbar-expand-lg navbar-light bg-dark" >
+  <div className=" Light container-fluid">
+    <NavLink 
+    className="navbar-Light" 
+     activeStyle={{
+    fontWeight: "bold",
+    color: "#fff"
+  }} to= '/'>Home</NavLink>    
+    <div className=" Light container-fluid container-sm" id="navbarNav">
+      <ul className=" navbar-nav">
         <li className="nav-item">
-          <NavLink className="nav-link active" aria-current="page" to="/signin">Signin</NavLink>
+          <NavLink 
+          className=" Light nav-link active"
+           activeStyle={{
+            fontWeight: "bold",
+            color: "#fff"
+          }}
+           aria-current="page" to="/signin">Signin</NavLink>
         </li>
         <li className="nav-item">
-        <NavLink className="nav-link active" aria-current="page" to="/siginup">Siginup</NavLink>
+        <NavLink 
+        className="Light nav-link active"
+        activeStyle={{
+          fontWeight: "bold",
+          color: "#fff"
+        }}
+         active aria-current="page" 
+         to="/siginup"
+         >
+           Siginup
+         </NavLink>
         </li>
         <li className="nav-item">
-        <NavLink className="nav-link active" aria-current="page" to="/todo">Todo</NavLink>
+        <NavLink 
+        className="Light nav-link active"
+        activeStyle={{
+          fontWeight: "bold",
+          color: "#fff"
+        }} 
+        active aria-current="page" 
+        to="/todo"
+        >
+          Todo
+          </NavLink>
         </li>
         <li className="nav-item">
-        <NavLink className="nav-link active" aria-current="page" to="/contact">Contact</NavLink>
+        <NavLink 
+        className="Light nav-link active" 
+        activeStyle={{
+          fontWeight: "bold",
+          color: "#fff"
+        }}
+        aria-current="page" 
+        to="/contact"
+        >
+          Contact
+          </NavLink>
         </li>
       </ul>
     </div>

@@ -1,41 +1,34 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Col, Modal, Button } from "react-bootstrap";
 import TodoLoader from '../loader/TodoLoader';
 import ModalComponnent from '../modal/ModalComponnent';
 import InputTodo from '../todo/InputTodo';
+import { withRouter } from 'react-router-dom';
+import { MovieContext } from "../../component/context/MovieContext";
 
-class SinglPach extends Component {
+function SinglPach(props) {
+    const { state, dispatch } = React.useContext(MovieContext);
 
-    state = {
-        modal: false,
-        isLoader: true,
-        title: '',
-        description: '',
-        show: false
-    }
 
-    componentDidMount() {
-        this.setState({ isLoader: true })
-        const { id } = this.props.match.params
-        fetch(`http://localhost:3001/task/${id}`, {
-            method: "GET"
+    React.useEffect(() => {
+        dispatch({
+            type: "DATA_ID",
+            payload: props.match.params.id,
+            method: "get"
+        });
+    }, [])
+
+
+    const hendelChange = (e) => {
+        dispatch({
+            type: "CHANG_ITEM",
+            payload: { [e.target.name]: e.target.value }
         })
-            .then(res => res.json())
-            .then(data => {
-                this.setState({ title: data.title, description: data.description })
-            }
-            )
-            .catch(err => console.log("get reqvest is error", err))
-            .finally(() => this.setState({ isLoader: false }))
-    }
-    hendelChange = (e) => {
-        this.setState({ [e.target.name]: e.target.value })
     }
 
-    hendelSubmit = () => {
-        this.setState({ isLoader: true })
-        const { id } = this.props.match.params
-        const { title, description } = this.state
+    const hendelSubmit = () => {
+        const { id } = props.match.params
+        const { title, description } = state.data
         fetch(`http://localhost:3001/task/${id}`, {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
@@ -45,23 +38,32 @@ class SinglPach extends Component {
             .then(data => {
                 if (data.err)
                     throw data.err
-                this.setState({ title: data.title, description: data.description, index: '' })
+                dispatch({
+                    type: "PUT_DATA_ITEM",
+                    payload: data,
+                });
             })
             .catch(err => console.log("error", err))
-            .finally(() => setTimeout(() => {
-                this.setState({ isLoader: false })
-            }, 1000))
-        this.setState({ show: false })
+
+
     }
 
-    editItem = () => {
-        this.setState({ show: true })
+    const editItem = () => {
+        dispatch({
+            type: "SHOW_MODAL",
+            payload: true,
+        });
+    }
+    const removeitems = () => {
+        dispatch({
+            type: "EVENT_MODAL",
+            payload: true,
+        });
     }
 
-    responsDelete = (bol) => {
-        if (bol) {
-            this.setState({ isLoader: true })
-            const { id } = this.props.match.params
+    const responsDelete = (bol) => {
+        if (bol === 1) {
+            const { id } = props.match.params
             fetch(`http://localhost:3001/task/${id}`, {
                 method: "DELETE",
             })
@@ -69,84 +71,87 @@ class SinglPach extends Component {
                 .then(data => {
                     if (data.err)
                         throw data.err
+                    dispatch({
+                        type: "DELETE_DATA_ITEM",
+                        payload: data,
+                    });
+                    props.history.go(-1)
                 })
                 .catch(err => console.log(err))
-                .finally(() => {
-                    setTimeout(() => {
-                        this.setState({ isLoader: false, modal: false })
-                        this.props.history.go(-1)
-                    }, 1000)
-                })
-        }
-        this.setState({ modal: false })
+
+        } else dispatch({
+            type: "EVENT_MODAL",
+            payload: false,
+        });
 
     }
-
-    removeitems = () => {
-        this.setState({ modal: true })
+    
+    const handleClose = () => {
+        dispatch({
+            type: "CLOSE_MODAL",
+            payload: true,
+        });
     }
 
-    handleClose = () => {
-        this.setState({ show: false })
-    }
 
-    render() {
-        const { inputArrey, modal, isLoader, show, title, description } = this.state
-        const { id } = this.props.match.params
-        return (
-            <div>
-                <Col className="input-group col-lg-12 " style={{ justifyContent: 'center', alignItems: "center" }}>
-                    {isLoader ? <TodoLoader /> :
+    const { data, modal, show } = state
+    const { id } = props.match.params
+    return (
+        <div>
+
+            <Col className="input-group col-lg-12 " style={{ justifyContent: 'center', alignItems: "center" }}>
+                {state.isLoader ? <TodoLoader /> :
 
 
-                        <Modal.Dialog style={{ width: "100%" }}>
+                    <Modal.Dialog style={{ width: "100%" }}>
 
-                            <Modal.Header >
-                                <Modal.Title>{title}</Modal.Title>
-                            </Modal.Header>
+                        <Modal.Header >
+                            <Modal.Title>{data.title}</Modal.Title>
+                        </Modal.Header>
 
-                            <Modal.Body className="text-left">
-                                <p style={{ lineBreak: "anywhere", overflow: "auto", height: "10vh" }}>{description}</p>
-                            </Modal.Body>
+                        <Modal.Body className="text-left">
+                            <p style={{ lineBreak: "anywhere", overflow: "auto", height: "10vh" }}>{data.description}</p>
+                        </Modal.Body>
 
-                            <Modal.Footer>
+                        <Modal.Footer>
 
-                                <Button
-                                    className={"btn-danger  input-group-text btn btn-danger"}
+                            <Button
+                                className={"btn-danger  input-group-text btn btn-danger"}
 
-                                    onClick={this.editItem}
-                                >
-                                    <i className=" bi bi-pin-angle"></i>
-                                </Button>
-                                <Button
-                                    className="input-group-text btn btn-danger"
-                                    onClick={this.removeitems}
-                                >
-                                    <i className="bi bi-trash" ></i>
-                                </Button>
-                            </Modal.Footer>
-                        </Modal.Dialog>
+                                onClick={editItem}
+                            >
+                                <i className=" bi bi-pin-angle"></i>
+                            </Button>
+                            <Button
+                                className="input-group-text btn btn-danger"
+                                onClick={removeitems}
+                            >
+                                <i className="bi bi-trash" ></i>
+                            </Button>
+                        </Modal.Footer>
+                    </Modal.Dialog>
 
 
-                    }
-                </Col>
-                <ModalComponnent modal={modal} responsDelete={this.responsDelete} />
-                { show &&
-                    <InputTodo
-                        show={show}
-                        title={title}
-                        description={description}
-                        handleClose={this.handleClose}
-                        hendelSubmit={this.hendelSubmit}
-                        hendelChange={this.hendelChange}
-                    />}
-            </div>
-        )
-    }
+                }
+            </Col>
+            <ModalComponnent modal={modal} responsDelete={responsDelete} />
+            {show &&
+                <InputTodo
+                    show={show}
+                    title={data.title}
+                    description={data.description}
+                    handleClose={handleClose}
+                    hendelSubmit={hendelSubmit}
+                    hendelChange={hendelChange}
+                />}
+
+        </div>
+    )
 }
 
 
-export default SinglPach
+
+export default withRouter(SinglPach)
 
 
 

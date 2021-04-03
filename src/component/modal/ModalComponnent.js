@@ -15,8 +15,8 @@ function ModalComponnent({responsDelete,modal}) {
       Are you sure want delete this item?
       </Modal.Header>
       <Modal.Footer>
-        <Button variant="primary" onClick={() => responsDelete(false)}>No</Button>
-        <Button variant="danger" onClick={() => responsDelete(true)} >Yes</Button>
+        <Button variant="primary" onClick={() => responsDelete(0)}>No</Button>
+        <Button variant="danger" onClick={() => responsDelete(1)} >Yes</Button>
       </Modal.Footer>
     </Modal>
   )
