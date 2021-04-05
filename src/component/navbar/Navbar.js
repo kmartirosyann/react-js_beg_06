@@ -32,7 +32,7 @@ export default function Navbar() {
           fontWeight: "bold",
           color: "#fff"
         }}
-         active aria-current="page" 
+          aria-current="page" 
          to="/siginup"
          >
            Siginup
@@ -45,7 +45,7 @@ export default function Navbar() {
           fontWeight: "bold",
           color: "#fff"
         }} 
-        active aria-current="page" 
+         aria-current="page" 
         to="/todo"
         >
           Todo

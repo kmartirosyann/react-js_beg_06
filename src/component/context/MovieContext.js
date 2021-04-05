@@ -11,6 +11,7 @@ export const PUT_DATA = "PUT_DATA";
 export const PUT_DATA_ITEM = "PUT_DATA_ITEM";
 export const DELETE_DATA_ITEM = "DELETE_DATA_ITEM";
 
+
 const initialState = {
   data: [],
   id:'',
@@ -20,7 +21,6 @@ const initialState = {
 };
 
 const reducer = (state, action) => {
-  console.log(action)
   const actions = {
     [DATA_ID]: () => ({ ...state,
       isLoader:true,
@@ -62,8 +62,7 @@ const reducer = (state, action) => {
       ...state,
       data:action.payload,
       modal:false
-    }),
-   
+    })
    }
   return actions[action.type]();
 };

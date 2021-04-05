@@ -68,7 +68,7 @@ function SinglPach(props) {
                 method: "DELETE",
             })
                 .then(res => res.json())
-                .then(data => {
+                .then(data => {console.log(data)
                     if (data.err)
                         throw data.err
                     dispatch({
@@ -78,6 +78,7 @@ function SinglPach(props) {
                     props.history.go(-1)
                 })
                 .catch(err => console.log(err))
+                 
 
         } else dispatch({
             type: "EVENT_MODAL",
@@ -95,7 +96,6 @@ function SinglPach(props) {
 
 
     const { data, modal, show } = state
-    const { id } = props.match.params
     return (
         <div>
 

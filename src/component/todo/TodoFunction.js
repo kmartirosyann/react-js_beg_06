@@ -60,7 +60,7 @@ class TodoFunction extends Component {
                     .finally(() => setTimeout(() => {
                         this.setState({ isLoader: false })
                     }, 1000))
-                    this.setState({ inputArrey:arr,index: '' })    
+                    this.setState({ inputArrey:arr,index: '',title:'', description:'' })    
                         
                     
             } else {
@@ -191,7 +191,7 @@ class TodoFunction extends Component {
     //delete || censel item modal 
 
     responsDelete = (bol) => {
-        if (bol === true) {
+        if (bol > 0) {
             this.removeSelect()
         } else this.hendelcansel()
         this.setState({ modal: !this.state.modal,index:'', active: false })
