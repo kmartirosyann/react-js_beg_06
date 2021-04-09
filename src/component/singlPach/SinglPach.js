@@ -4,107 +4,73 @@ import TodoLoader from '../loader/TodoLoader';
 import ModalComponnent from '../modal/ModalComponnent';
 import InputTodo from '../todo/InputTodo';
 import { withRouter } from 'react-router-dom';
-import { MovieContext } from "../../component/context/MovieContext";
+import { connect } from 'react-redux';
+import getSinglPach from '../../store/actions/getSinglPach';
+import updateSinglPach from '../../store/actions/updateSinglPach';
+import {  
+    isOpenMoalEdit ,
+    remuveMoalComponent,
+    clossMoalComponent
+} from '../../store/actions/changeSinglePach';
+import deleteSinglePach from '../../store/actions/deleteSinglePach'
+
 
 function SinglPach(props) {
-    const { state, dispatch } = React.useContext(MovieContext);
-
+    const { title, description } = props.data
+    const [state, setState] = React.useState({title,description})
+const {getSinglPach , 
+    isOpenMoalEdit ,
+    remuveMoalComponent,
+    clossMoalComponent,
+    deleteSinglePach}=props
 
     React.useEffect(() => {
-        dispatch({
-            type: "DATA_ID",
-            payload: props.match.params.id,
-            method: "get"
-        });
+        const { id } = props.match.params
+       getSinglPach(id)
     }, [])
 
 
     const hendelChange = (e) => {
-        dispatch({
-            type: "CHANG_ITEM",
-            payload: { [e.target.name]: e.target.value }
-        })
+        setState({[e.target.name]:e.target.value})
     }
 
     const hendelSubmit = () => {
         const { id } = props.match.params
-        const { title, description } = state.data
-        fetch(`http://localhost:3001/task/${id}`, {
-            method: 'PUT',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title, description })
-        })
-            .then(res => res.json())
-            .then(data => {
-                if (data.err)
-                    throw data.err
-                dispatch({
-                    type: "PUT_DATA_ITEM",
-                    payload: data,
-                });
-            })
-            .catch(err => console.log("error", err))
-
-
+        const { title, description } = state
+        updateSinglPach(title,description,id)
     }
 
     const editItem = () => {
-        dispatch({
-            type: "SHOW_MODAL",
-            payload: true,
-        });
+     isOpenMoalEdit() 
+
     }
     const removeitems = () => {
-        dispatch({
-            type: "EVENT_MODAL",
-            payload: true,
-        });
+        remuveMoalComponent()
     }
 
     const responsDelete = (bol) => {
         if (bol === 1) {
             const { id } = props.match.params
-            fetch(`http://localhost:3001/task/${id}`, {
-                method: "DELETE",
-            })
-                .then(res => res.json())
-                .then(data => {console.log(data)
-                    if (data.err)
-                        throw data.err
-                    dispatch({
-                        type: "DELETE_DATA_ITEM",
-                        payload: data,
-                    });
-                    props.history.go(-1)
-                })
-                .catch(err => console.log(err))
-                 
+            deleteSinglePach(id)
+             props.history.go(-1)    
 
-        } else dispatch({
-            type: "EVENT_MODAL",
-            payload: false,
-        });
+        } else clossMoalComponent()
 
     }
     
     const handleClose = () => {
-        dispatch({
-            type: "CLOSE_MODAL",
-            payload: true,
-        });
+        clossMoalComponent()
     }
-
-
-    const { data, modal, show } = state
+const {data,isLoader,show,modal,errMesage }= props
     return (
         <div>
 
             <Col className="input-group col-lg-12 " style={{ justifyContent: 'center', alignItems: "center" }}>
-                {state.isLoader ? <TodoLoader /> :
+                {isLoader ? <TodoLoader /> :
 
-
+                    
                     <Modal.Dialog style={{ width: "100%" }}>
-
+                       <span>{errMesage}</span>
                         <Modal.Header >
                             <Modal.Title>{data.title}</Modal.Title>
                         </Modal.Header>
@@ -148,10 +114,24 @@ function SinglPach(props) {
         </div>
     )
 }
+const mapStateToProps = (state)=>({
+    data:state.singlData,
+    isLoader:state.isLoader,
+    show:state.show,
+    modal:state.modal,
+    errMesage:state.errMesage
+})
+const mapDispatchToProps ={
+    getSinglPach,
+    updateSinglPach,
+    isOpenMoalEdit ,
+    remuveMoalComponent,
+    deleteSinglePach,
+    clossMoalComponent,
 
+}
 
-
-export default withRouter(SinglPach)
+export default connect(mapStateToProps,mapDispatchToProps)(withRouter(SinglPach)) 
 
 
 
