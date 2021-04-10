@@ -16,27 +16,32 @@ import deleteSinglePach from '../../store/actions/deleteSinglePach'
 
 
 function SinglPach(props) {
-    const { title, description } = props.data
-    const [state, setState] = React.useState({title,description})
+    
+    const [inputs, setInputs] = React.useState({})
 const {getSinglPach , 
     isOpenMoalEdit ,
     remuveMoalComponent,
     clossMoalComponent,
+    updateSinglPach,
     deleteSinglePach}=props
 
     React.useEffect(() => {
+        const {title,description} = props.data
         const { id } = props.match.params
        getSinglPach(id)
+       setInputs({title,description})
     }, [])
 
 
     const hendelChange = (e) => {
-        setState({[e.target.name]:e.target.value})
+        setInputs({...inputs,
+        [e.target.name]:e.target.value})
     }
 
     const hendelSubmit = () => {
         const { id } = props.match.params
-        const { title, description } = state
+        const { title, description } = inputs
+        console.log(title,description,id)
         updateSinglPach(title,description,id)
     }
 
@@ -104,8 +109,8 @@ const {data,isLoader,show,modal,errMesage }= props
             {show &&
                 <InputTodo
                     show={show}
-                    title={data.title}
-                    description={data.description}
+                    title={inputs.title}
+                    description={inputs.description}
                     handleClose={handleClose}
                     hendelSubmit={hendelSubmit}
                     hendelChange={hendelChange}
