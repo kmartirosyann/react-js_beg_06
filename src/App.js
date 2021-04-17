@@ -8,15 +8,46 @@ import NotFoutnd from "./component/notFound/NotFoutnd";
 import SinglPach from "./component/singlPach/SinglPach";
 import Contact from "./component/contact/Contact";
 import { MovieProvider } from "./component/context/MovieContext";
+import { ToastContainer, toast } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
+import React from "react";
+import { connect } from "react-redux";
 
 
-function App() {
-
+function App({errMessage,successMessage}) {
+React.useEffect(()=>{
+ !!errMessage && toast.error(`🦄 ${errMessage}`, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    });
+},[errMessage])
+ 
+React.useEffect(()=>{
+  !!successMessage && toast.success(`🦄 ${successMessage}`, {
+    position: "top-center",
+    autoClose: 5000,
+    hideProgressBar: false,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true,
+    progress: undefined,
+    });
+},[successMessage])
   return (
     <div >
+       
       <MovieProvider>
+       
+     
       <Router>
         <Navbar />
+        <ToastContainer 
+        />
         <Switch>
           <Route path="/contact" component={Contact} exact />
           <Route path="/siginup" component={SiginUp} exact />
@@ -33,4 +64,9 @@ function App() {
   );
 }
 
-export default App;
+const mapStateToProps =(state)=>({
+  errMessage:state.globaleReducer.errMessage,
+  successMessage:state.globaleReducer.successMessage
+})
+
+export default connect(mapStateToProps,null)(App);

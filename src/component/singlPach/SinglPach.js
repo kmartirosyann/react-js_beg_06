@@ -5,83 +5,56 @@ import ModalComponnent from '../modal/ModalComponnent';
 import InputTodo from '../todo/InputTodo';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import getSinglPach from '../../store/actions/getSinglPach';
-import updateSinglPach from '../../store/actions/updateSinglPach';
-import {  
-    isOpenMoalEdit ,
-    remuveMoalComponent,
-    clossMoalComponent
-} from '../../store/actions/changeSinglePach';
-import deleteSinglePach from '../../store/actions/deleteSinglePach'
+import {getSinglPach} from '../../store/actions/actionReqvest';
+import {isOpenMoalEdit,MoalComponent} from '../../store/actions/onOffModale'
+
 
 
 function SinglPach(props) {
-    
+  const {getSinglPach,singlArray,isOpenMoalEdit,MoalComponent} = props
     const [inputs, setInputs] = React.useState({})
-const {getSinglPach , 
-    isOpenMoalEdit ,
-    remuveMoalComponent,
-    clossMoalComponent,
-    updateSinglPach,
-    deleteSinglePach}=props
 
     React.useEffect(() => {
-        const {title,description} = props.data
-        const { id } = props.match.params
-       getSinglPach(id)
-       setInputs({title,description})
-    }, [])
+        if(!!setInputs.length){
+        const{ id } = props.match.params
+        getSinglPach(id)
+        setInputs(singlArray)
+        } 
+    }, []);
 
 
-    const hendelChange = (e) => {
-        setInputs({...inputs,
-        [e.target.name]:e.target.value})
-    }
+  
+        const editItem =(id)=>{
+            isOpenMoalEdit(id)
+         };
 
-    const hendelSubmit = () => {
-        const { id } = props.match.params
-        const { title, description } = inputs
-        console.log(title,description,id)
-        updateSinglPach(title,description,id)
-    }
-
-    const editItem = () => {
-     isOpenMoalEdit() 
-
-    }
-    const removeitems = () => {
-        remuveMoalComponent()
-    }
-
-    const responsDelete = (bol) => {
-        if (bol === 1) {
-            const { id } = props.match.params
-            deleteSinglePach(id)
-             props.history.go(-1)    
-
-        } else clossMoalComponent()
-
-    }
     
-    const handleClose = () => {
-        clossMoalComponent()
+    const removeitems = (id) => {
+        MoalComponent(id)
     }
-const {data,isLoader,show,modal,errMesage }= props
+
+const handelPath =()=>{
+    console.log('nnnnnnn')
+    props.history.go(-1)
+}
+
+    const {isLoader,show} = props
+    console.log(isLoader)
     return (
         <div>
 
             <Col className="input-group col-lg-12 " style={{ justifyContent: 'center', alignItems: "center" }}>
                 {isLoader ? <TodoLoader /> :
 
-                    
+
                     <Modal.Dialog style={{ width: "100%" }}>
-                       <span>{errMesage}</span>
+                        <span></span>
                         <Modal.Header >
-                            <Modal.Title>{data.title}</Modal.Title>
+                            <Modal.Title>{singlArray.title}</Modal.Title>
                         </Modal.Header>
 
                         <Modal.Body className="text-left">
-                            <p style={{ lineBreak: "anywhere", overflow: "auto", height: "10vh" }}>{data.description}</p>
+                            <p style={{ lineBreak: "anywhere", overflow: "auto", height: "10vh" }}>{singlArray.description}</p>
                         </Modal.Body>
 
                         <Modal.Footer>
@@ -89,13 +62,13 @@ const {data,isLoader,show,modal,errMesage }= props
                             <Button
                                 className={"btn-danger  input-group-text btn btn-danger"}
 
-                                onClick={editItem}
+                                onClick={()=>editItem(singlArray._id)}
                             >
                                 <i className=" bi bi-pin-angle"></i>
                             </Button>
                             <Button
                                 className="input-group-text btn btn-danger"
-                                onClick={removeitems}
+                                onClick={()=> removeitems(singlArray._id)}
                             >
                                 <i className="bi bi-trash" ></i>
                             </Button>
@@ -105,38 +78,25 @@ const {data,isLoader,show,modal,errMesage }= props
 
                 }
             </Col>
-            <ModalComponnent modal={modal} responsDelete={responsDelete} />
-            {show &&
-                <InputTodo
-                    show={show}
-                    title={inputs.title}
-                    description={inputs.description}
-                    handleClose={handleClose}
-                    hendelSubmit={hendelSubmit}
-                    hendelChange={hendelChange}
-                />}
+            <ModalComponnent  />
+             { show &&  <InputTodo />}
 
         </div>
     )
 }
-const mapStateToProps = (state)=>({
-    data:state.singlData,
-    isLoader:state.isLoader,
-    show:state.show,
-    modal:state.modal,
-    errMesage:state.errMesage
+const mapStateToProps = (state) => ({
+    singlArray:state.globaleReducer.singlArray,
+    isLoader:state.globaleReducer.isLoader,
+    show:state.modalReducer.show,
 })
-const mapDispatchToProps ={
+const mapDispatchToProps = {
     getSinglPach,
-    updateSinglPach,
-    isOpenMoalEdit ,
-    remuveMoalComponent,
-    deleteSinglePach,
-    clossMoalComponent,
+    isOpenMoalEdit,
+    MoalComponent
 
 }
 
-export default connect(mapStateToProps,mapDispatchToProps)(withRouter(SinglPach)) 
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SinglPach))
 
 
 

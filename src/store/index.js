@@ -1,14 +1,19 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware,combineReducers } from 'redux';
 import thunk from 'redux-thunk';
 import {composeWithDevTools} from 'redux-devtools-extension'
-import {singleRducer} from './reducers/singleReducer';
+import modalReducer from './reducers/modalReducer';
+import globaleReducer from './reducers/globaleReducer';
+import contactReducer from './reducers/contactReducer';
 
-
+const reduser = combineReducers({
+    modalReducer,
+    globaleReducer,
+    contactReducer
+})
 
   
 
-
-export const store = createStore(singleRducer, composeWithDevTools(applyMiddleware(thunk)));
+export const store = createStore(reduser, composeWithDevTools(applyMiddleware(thunk)))
 
 
 

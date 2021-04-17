@@ -1,0 +1,9 @@
+export const OPEN_MODA_CLOSSL_EDIT = "OPEN_MODA_CLOSSL_EDIT";
+
+export const OPEN_SHOW_MODAL = "OPEN_SHOW_MODAL";
+export const CLOSS_SHOW_MODAL = "CLOSS_SHOW_MODAL";
+
+export const ADD_ALL_ITEMS = "ADD_ALL_ITEMS";
+
+export const CENSEL_DELETE = "CENSEL_DELETE";
+export const SELEKT_ALL_ID = "SELEKT_ALL_ID"

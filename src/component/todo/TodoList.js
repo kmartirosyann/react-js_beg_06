@@ -3,21 +3,48 @@ import { Col, Row, Button ,Modal} from 'react-bootstrap'
 import TodoLoader from '../loader/TodoLoader';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-
+import { connect } from 'react-redux';
+import {isOpenMoalEdit,MoalComponent,select,censelDelete,AllSelectId} from '../../store/actions/onOffModale';
+import {deleteSinglePach} from '../../store/actions/actionReqvest';
 
  const TodoList = React.memo( ({ 
-    inputArrey, 
-     removeitems, 
-     allModallDelete, 
+    inputArray, 
+    isOpenMoalEdit,
+    MoalComponent, 
+    AllSelectId, 
+     censelDelete,
      active, 
-     hendelechange,
-     selectAllTasks,
-     hendelcansel,
-     editItem,
+     select,
+     selectId,
      isLoader,
      }) => 
      {
-    const itemsArrey =inputArrey && inputArrey.map((item, index) => {
+
+     const selectAllTasks = ()=>{
+    let arrId=[]
+    inputArray.forEach(element =>arrId.push(element._id))
+    AllSelectId (arrId)
+
+     };
+   
+     const removeitems = (id)=>{
+        MoalComponent(id)
+     };
+
+     const editItem =(id)=>{
+        isOpenMoalEdit(id)
+     };
+    const hendelechange = (id)=>{
+        select(id)
+    }
+
+    const hendelcansel = ()=>{
+        censelDelete()
+    }
+    const allModallDelete =()=>{
+        MoalComponent()
+    }
+    const itemsArrey =inputArray && inputArray.map((item, index) => {
 
         return (
            
@@ -28,7 +55,7 @@ import { Link } from 'react-router-dom';
                         <input 
                         type="checkbox" 
                         onChange={ () => hendelechange(item._id)} 
-                        checked ={item.active}
+                        checked ={selectId.includes(item._id)}
                          />
                     </Modal.Header>
 
@@ -68,13 +95,13 @@ import { Link } from 'react-router-dom';
                                 <TodoLoader/> 
                             </Col> 
                     </Row>:
-            inputArrey.length !== 0 ? <Row  className="justify-content-center"> {itemsArrey} </Row>:
+            !!inputArray.length ? <Row  className="justify-content-center"> {itemsArrey} </Row>:
                 <Row className="justify-content-center">
                     <Col className="input-group col-lg-6 justify-content-center">
                         <h4>There is no todo</h4>
                     </Col>
                 </Row>}
-          {inputArrey.length !== 0 &&  <Row className="justify-content-center">
+          {!!inputArray.length &&  <Row className="justify-content-center">
                 <Col className="input-group col-6 justify-content-center ">
                   {!active ?  <Button
                     className="input-group-text btn btn-susser m-5 "
@@ -109,6 +136,20 @@ import { Link } from 'react-router-dom';
 }
  )
 
+ const mapStateToProps=(state)=>({
+    inputArray:state.globaleReducer.inputArray,
+    isLoader:state.globaleReducer.isLoader,
+    active :state.modalReducer.active,
+    selectId:state.modalReducer.selectId
+ })
+const mapDispatchToProps={
+    isOpenMoalEdit,
+    deleteSinglePach,
+    MoalComponent,
+    censelDelete,
+    select,
+    AllSelectId
+}
 
 TodoList.propTypes={
     inputArrey : PropTypes.array, 
@@ -122,4 +163,4 @@ TodoList.propTypes={
 }
 
 
-export default TodoList
+export default connect(mapStateToProps,mapDispatchToProps)(TodoList)
