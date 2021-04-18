@@ -6,11 +6,11 @@ const inishelstate = {
         email: '',
         message: '',
         loading: false,
-        isValit:false,
+        isValit:true,
         isLoader:false,
         validet:{},
-        successContact:false,
-        error:false,
+        successContact:'',
+        contactError:'',
         errors:{
             name:'',
             email:'',
@@ -55,14 +55,15 @@ const contactReducer = (state = inishelstate, action) => {
         }),
         [actionTypes.CONTACT_FORM_SUCCESS]:()=>({
                   ...state,
+                  successContact:"your request was successful",
                   isLoader:false,
                   state: inishelstate,
-                  successContact:"your request was successful"
+                 
         }),
         [actionTypes.CONTACT_FORM_FAILURE]:()=>({
             ...state,
             isLoader:false,
-            error:action.error
+            contactError:action.error
         })   
     }
     if (action.type === actionTypes[action.type]) {

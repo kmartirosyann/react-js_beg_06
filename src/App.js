@@ -14,9 +14,16 @@ import React from "react";
 import { connect } from "react-redux";
 
 
-function App({errMessage,successMessage}) {
+function App({
+  errMessage,
+  successMessage,
+  successContact,
+  contactError
+}) {
+
 React.useEffect(()=>{
- !!errMessage && toast.error(`🦄 ${errMessage}`, {
+  let errors = errMessage || contactError
+ !!errors && toast.error(`🦄 ${errors}`, {
     position: "top-center",
     autoClose: 5000,
     hideProgressBar: false,
@@ -25,10 +32,11 @@ React.useEffect(()=>{
     draggable: true,
     progress: undefined,
     });
-},[errMessage])
+},[errMessage,contactError])
  
 React.useEffect(()=>{
-  !!successMessage && toast.success(`🦄 ${successMessage}`, {
+  let message = successContact || successMessage
+  !!message && toast.success(`🦄 ${message}`, {
     position: "top-center",
     autoClose: 5000,
     hideProgressBar: false,
@@ -37,7 +45,7 @@ React.useEffect(()=>{
     draggable: true,
     progress: undefined,
     });
-},[successMessage])
+},[successMessage,successContact])
   return (
     <div >
        
@@ -66,7 +74,9 @@ React.useEffect(()=>{
 
 const mapStateToProps =(state)=>({
   errMessage:state.globaleReducer.errMessage,
-  successMessage:state.globaleReducer.successMessage
+  successMessage:state.globaleReducer.successMessage,
+  successContact:state.contactReducer.successContact,
+  contactError:state.contactReducer.contactError
 })
 
 export default connect(mapStateToProps,null)(App);

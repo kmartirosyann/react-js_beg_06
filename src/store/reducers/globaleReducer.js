@@ -22,7 +22,6 @@ const globaleReducer = (state = inishelstate, action) => {
         [actionTypes.GET_SINGLPACH_SUCCESS]: () => ({
             ...state,
             singlArray: action.payload,
-            successMessage:"your request was successful",
             isLoader: false,
             show: false
         }),
@@ -42,7 +41,6 @@ const globaleReducer = (state = inishelstate, action) => {
         [actionTypes.GET_TODO_ITEMS_SUCCESS]: () => ({
             ...state,
             inputArray: action.payload,
-            successMessage:"your request was successful",
             isLoader: false,
             show: false
         }),
