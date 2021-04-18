@@ -35,6 +35,7 @@ class Contact extends Component {
     render() {
 
         const { name, email, message, loading, errors, isValit } = this.props
+
         return (
             <Container style={{ width: "50%", textAlign: 'start' }}>
                 <Form className="align-self-start my-5 block-example border border-dark rounded-top p-2">

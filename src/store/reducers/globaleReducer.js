@@ -2,13 +2,13 @@ import * as actionTypes from '../actions/actionReqvestTypes';
 
 const inishelstate = {
     inputArray: [],
-    editData:{title:'',description:'',_id:''},
+    editData: { title: '', description: '', _id: '' },
     isLoader: false,
     show: false,
     id: '',
     errMessage: '',
-    singlArray:[],
-    successMessage:''
+    singlArray: [],
+    successMessage: ''
 }
 
 const globaleReducer = (state = inishelstate, action) => {
@@ -16,7 +16,7 @@ const globaleReducer = (state = inishelstate, action) => {
         [actionTypes.GET_SINGLPACH_DATA]: () => ({
             ...state,
             ...state.inputArray,
-            successMessage:'',
+            successMessage: '',
             isLoader: true,
         }),
         [actionTypes.GET_SINGLPACH_SUCCESS]: () => ({
@@ -35,7 +35,7 @@ const globaleReducer = (state = inishelstate, action) => {
         [actionTypes.GET_TODO_ITEMS_REQUEST]: () => ({
             ...state,
             ...state.inputArray,
-            successMessage:'',
+            successMessage: '',
             isLoader: true,
         }),
         [actionTypes.GET_TODO_ITEMS_SUCCESS]: () => ({
@@ -53,7 +53,7 @@ const globaleReducer = (state = inishelstate, action) => {
         [actionTypes.ADD_TODOITEM_REQUEST]: () => ({
             ...state,
             ...state.inputArray,
-            successMessage:'',
+            successMessage: '',
             isLoader: true,
 
         }),
@@ -62,7 +62,7 @@ const globaleReducer = (state = inishelstate, action) => {
             return {
                 ...state,
                 inputArray: arr,
-                successMessage:"your request was successful",
+                successMessage: "your request was successful",
                 isLoader: false,
             }
 
@@ -71,45 +71,45 @@ const globaleReducer = (state = inishelstate, action) => {
             ...state,
             ...state.inputArray,
             isLoader: false,
-            errMessage:action.error
+            errMessage: action.error
 
         }),
         [actionTypes.UPDATE_TODOITEM_REQUEST]: () => ({
             ...state,
             ...state.inputArray,
-            successMessage:'',
+            successMessage: '',
             isLoader: true,
         }),
-        
+
         [actionTypes.UPDATE_TODOITEM_SUCCESS]: () => {
             let arr = state.inputArray.map(item => item._id === action.payloadId ? item = action.payload : item)
             return {
                 ...state,
                 inputArray: arr,
-                singlArray:action.payload,
-                successMessage:"your request was successful",
+                singlArray: action.payload,
+                successMessage: "your request was successful",
                 isLoader: false,
             }
         },
         [actionTypes.UPDATE_TODOITEM_FAILURE]: () => ({
             ...state,
             ...state.inputArray,
-            errMessage:action.error,
+            errMessage: action.error,
             isLoader: false,
         }),
 
         [actionTypes.DELETE_SINGLPACH_REQUEST]: () => ({
             ...state,
             isLoader: true,
-            successMessage:'',
+            successMessage: '',
         }),
         [actionTypes.DELETE_SINGLPACH_SUCCESS]: () => {
             let arr = state.inputArray.filter(item => item._id !== action.payloadId);
             return {
                 ...state,
                 inputArray: arr,
-                singlArray:[],
-                successMessage:"your request was successful",
+                singlArray: [],
+                successMessage: "your request was successful",
                 _id: '',
                 isLoader: false,
             }
@@ -117,21 +117,21 @@ const globaleReducer = (state = inishelstate, action) => {
         [actionTypes.DELETE_SINGLPACH_FAILURE]: () => ({
             ...state,
             ...state.inputArray,
-            errMessage:action.error,
+            errMessage: action.error,
             isLoader: false
         }),
         [actionTypes.DELETE_ALL_TODO_REQUEST]: () => ({
             ...state,
             ...state.inputArray,
             isLoader: true,
-            successMessage:'',
+            successMessage: '',
         }),
         [actionTypes.DELETE_ALL_TODO_SUCCESS]: () => {
-            let array =state.inputArray.filter(item => !action.payload.includes(item._id))
+            let array = state.inputArray.filter(item => !action.payload.includes(item._id))
             return {
                 ...state,
-                inputArray:array,
-                successMessage:"your request was successful",
+                inputArray: array,
+                successMessage: "your request was successful",
                 isLoader: false
             }
         },
@@ -139,7 +139,7 @@ const globaleReducer = (state = inishelstate, action) => {
             ...state,
             ...state.inputArray,
             isLoader: false,
-            errMessage:action.error
+            errMessage: action.error
         }),
 
 

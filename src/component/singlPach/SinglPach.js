@@ -33,13 +33,9 @@ function SinglPach(props) {
         MoalComponent(id)
     }
 
-const handelPath =()=>{
-    console.log('nnnnnnn')
-    props.history.go(-1)
-}
+
 
     const {isLoader,show} = props
-    console.log(isLoader)
     return (
         <div>
 

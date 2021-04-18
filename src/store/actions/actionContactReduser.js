@@ -6,9 +6,10 @@ export const changeContactForm = (data) => {
         dispatch({
             type: actionTypes.CHANGE_CONTACT_FORM,
             peyload: data.target,
-            
+
         });
-        dispatch({type:actionTypes.FORM_VALID_DATA,
+        dispatch({
+            type: actionTypes.FORM_VALID_DATA,
             valid: validate,
             peyload: data.target,
         })
@@ -25,7 +26,7 @@ export const contactOnBlur = (data) => {
     }
 }
 
-export const contactSubmit = ( name, email, message) => {
+export const contactSubmit = (name, email, message) => {
     return (dispatch) => {
         dispatch({
             type: actionTypes.CONTACT_FORM_REQVEST,
@@ -41,10 +42,10 @@ export const contactSubmit = ( name, email, message) => {
                 payload: data
             })
             )
-            .catch(error =>dispatch({
+            .catch(error => dispatch({
                 type: actionTypes.CONTACT_FORM_FAILURE,
                 error: error.toString(),
-            }) )
+            }))
 
 
     }

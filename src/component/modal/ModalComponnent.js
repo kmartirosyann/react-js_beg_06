@@ -37,7 +37,6 @@ function ModalComponnent({
     }
     MoalComponentClose()
   }
-console.log(modal)
   return (
     <Modal show={modal} onHide={handleClose}>
       <Modal.Header closeButton>

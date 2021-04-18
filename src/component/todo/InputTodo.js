@@ -25,7 +25,6 @@ React.useEffect(()=>{
  let arr = inputArray.find((item)=>item._id === _id);
  setChangh(arr)
     }
-    console.log(!!_id)
 },[_id])
 
 const handleClose =()=>{
@@ -49,7 +48,7 @@ const handeleSubmit =()=>{
   
     
     const {title,description }= change
-console.log(inputArray,_id)
+
     return (
         <Row className="justify-content-center" >
             <Col className="my-3 input-group justify-content-center col-lg-6">

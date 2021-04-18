@@ -2,69 +2,69 @@
 import * as actionTypes from '../actions/actionContactTypes';
 
 const inishelstate = {
-         name: '',
+    name: '',
+    email: '',
+    message: '',
+    loading: false,
+    isValit: true,
+    isLoader: false,
+    validet: {},
+    successContact: '',
+    contactError: '',
+    errors: {
+        name: '',
         email: '',
-        message: '',
-        loading: false,
-        isValit:true,
-        isLoader:false,
-        validet:{},
-        successContact:'',
-        contactError:'',
-        errors:{
-            name:'',
-            email:'',
-            comment:'',
-        }
+        comment: '',
+    }
 }
 
 const contactReducer = (state = inishelstate, action) => {
     const actionReducer = {
-        [actionTypes.CHANGE_CONTACT_FORM]:()=>{
+        [actionTypes.CHANGE_CONTACT_FORM]: () => {
             let e = action.peyload
-           let {name,value} = e;
-            return { 
+            let { name, value } = e;
+            return {
                 ...state,
-                [name]: value ,   
-        }
+                [name]: value,
+            }
 
         },
-        [actionTypes.ONBLUR_ERRORS]:()=>{
+        [actionTypes.ONBLUR_ERRORS]: () => {
             let e = action.peyload
-            let {name} = e 
-            return { 
+            let { name } = e
+            return {
+                ...state,   
+                validet: action.valid(state),
+                isValit: state.validet.isValid,
+                errors: { [name]: state.validet.errors[name]}, 
+            }
+        },
+        [actionTypes.FORM_VALID_DATA]: () => {
+            let e = action.peyload
+            let { name } = e
+            return {
                 ...state,
-                errors: {[name]:state.validet.name},
-                validet:action.valid(state),
-                errors:state.validet.errors,
-             isValit:state.validet.isValid, 
-        } 
+                validet: action.valid(state),
+                isValit: state.validet.isValid,
+                errors: {[name]: state.validet.errors} ,
+            }
         },
-        [actionTypes.FORM_VALID_DATA]:()=>{
-            let e = action.peyload
-            let {name} = e 
-             return{ 
-                 ...state,
-               errors: {[name]:state.validet.name},
-              validet:action.valid(state),
-           isValit:state.validet.isValid,}
-        },
-        [actionTypes.CONTACT_FORM_REQVEST]:()=>({
-                   ...state,
-                   isLoader:true,
-        }),
-        [actionTypes.CONTACT_FORM_SUCCESS]:()=>({
-                  ...state,
-                  successContact:"your request was successful",
-                  isLoader:false,
-                  state: inishelstate,
-                 
-        }),
-        [actionTypes.CONTACT_FORM_FAILURE]:()=>({
+        [actionTypes.CONTACT_FORM_REQVEST]: () => ({
             ...state,
-            isLoader:false,
-            contactError:action.error
-        })   
+            isLoader: true,
+        }),
+        [actionTypes.CONTACT_FORM_SUCCESS]: () => ({
+            ...state,
+            successContact: "your request was successful",
+            isLoader: false,
+            state: inishelstate,
+
+        }),
+        [actionTypes.CONTACT_FORM_FAILURE]: () => ({
+            ...state,
+            isLoader: false,
+            contactError: action.error
+        })
     }
     if (action.type === actionTypes[action.type]) {
         return actionReducer[action.type]()
