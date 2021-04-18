@@ -1,57 +1,40 @@
-import React, { Component } from 'react'
-import { Form, Button, Container } from 'react-bootstrap'
-import './contact.modal.css'
+import React, { Component } from 'react';
+import { Form, Button, Container } from 'react-bootstrap';
+import { connect } from 'react-redux';
+import './contact.modal.css';
+import { changeContactForm, contactOnBlur, contactSubmit } from '../../store/actions/actionContactReduser'
 
 
 class Contact extends Component {
-    state = {
-        name: '',
-        email: '',
-        message: '',
-        loading: false,
-        error:new Map()
-    }
+
     handleChange = (e) => {
-        this.setState({ 
-            [e.target.name]: e.target.value 
-        })
-        this.setState({error:new Map()})
+        const { changeContactForm } = this.props
+        changeContactForm(e)
+
     }
 
-    handleSubmit = () => { 
-       
-        const { name, email, message, loading } = this.state
-        this.setState({loading:true})
-        const re = /\S+@\S+\.\S+/;
-        let error = new Map()
-        if (name.trim()===""){
-          error.set('name', "Name is required")
-        }else if(!re.test(email)){
-            error.set("email","Email is required")
-        }else if(message.trim()===""){
-            error.set("message","message is required")
-        }else {
-            fetch('http://localhost:3001/form', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({name, email, message })
-          })
-            .then(res => res.json())
-           .then(data=>console.log(data))
-           .catch(err =>console.log("error contact",err))
-           .finally(()=>this.setState({loading:false}))
-           this.setState({name:'',email:'',message:''})
+    handelBlur = (e) => {
+        const { contactOnBlur } = this.props
+        contactOnBlur(e)
+
+    }
+
+
+
+    handleSubmit = () => {
+
+        const { name, email, message, isValit, contactSubmit } = this.props
+        if (!isValit) {
+            contactSubmit(name, email, message)
+
         }
 
-        if(error){
-            this.setState({error})
-        }
-           
     }
+
 
     render() {
-        
-        const { name, email, message, loading ,error} = this.state
+
+        const { name, email, message, loading, errors, isValit } = this.props
         return (
             <Container style={{ width: "50%", textAlign: 'start' }}>
                 <Form className="align-self-start my-5 block-example border border-dark rounded-top p-2">
@@ -59,45 +42,48 @@ class Contact extends Component {
                         <h1><i className="bi bi-person-x-fill mx-5" style={{ fontSize: '15vh' }}></i>CONTACT</h1>
                         <Form.Group >
 
-                            <Form.Control 
-                                className = {error.has('name') && "validet"}                              
+                            <Form.Control
+                                className={isValit && errors.name && "validet"}
                                 type="text"
                                 placeholder="Name"
                                 name="name"
                                 value={name}
                                 onChange={this.handleChange}
+                                onBlur={this.handelBlur}
                             />
-                            <Form.Text  style={{color:"red"}}>
-                            {error.has('name') && error.get('name')}
-                                </Form.Text>
+                            <Form.Text style={{ color: "red" }}>
+                                {isValit && errors.name}
+                            </Form.Text>
                         </Form.Group>
                         <Form.Group >
                             <Form.Control
-                                className = {error.has('email') && "validet"} 
+                                className={isValit && errors.email && "validet"}
                                 type="email"
                                 placeholder="Email"
                                 name="email"
                                 value={email}
                                 onChange={this.handleChange}
+                                onBlur={this.handelBlur}
                             />
-                            <Form.Text style={{color:"red"}}>
-                            {error.has('email') && error.get('email')}
-                             </Form.Text>
+                            <Form.Text style={{ color: "red" }}>
+                                {isValit && errors.email}
+                            </Form.Text>
                         </Form.Group>
                         <Form.Group >
                             <Form.Control
-                               className = {error.has('message') && "validet"} 
+                                className={isValit && errors.message && "validet"}
                                 as="textarea"
                                 rows={3}
                                 style={{ resize: "none" }}
                                 name="message"
                                 value={message}
                                 onChange={this.handleChange}
+                                onBlur={this.handelBlur}
                             />
                         </Form.Group>
-                        <Form.Text  style={{color:"red"}}>
-                            {error.has('message') && error.get('message')}
-                             </Form.Text>
+                        <Form.Text style={{ color: "red" }}>
+                            {isValit && errors.message}
+                        </Form.Text>
                         <Button
                             variant="primary"
                             type="button"
@@ -112,4 +98,17 @@ class Contact extends Component {
     }
 }
 
-export default Contact
+const mapStateToProps = (state) => ({
+    name: state.contactReducer.name,
+    email: state.contactReducer.email,
+    message: state.contactReducer.message,
+    errors: state.contactReducer.errors,
+    isValit: state.contactReducer.isValit
+})
+const mapDispatchToProps = {
+    changeContactForm,
+    contactOnBlur,
+    contactSubmit
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Contact)
