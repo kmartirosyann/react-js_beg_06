@@ -10,15 +10,6 @@ export const changeContactForm = (data) => {
     }
 }
 
-// export const contactOnBlur = (data) => {
-//     return (dispatch) => {
-//         dispatch({
-//             type: actionTypes.ONBLUR_ERRORS,
-//             peyload: data.target,
-//         })
-//     }
-// }
-
 export const contactSubmit = (name, email, message) => {
     return (dispatch) => {
         dispatch({

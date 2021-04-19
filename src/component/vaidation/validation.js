@@ -3,7 +3,7 @@
  const validate=(state)=>{
     let errors = {};
     let isValid = false;
-    if (!state["name"]) {
+    if (!state["name"] ) {
       isValid = true;
       errors["name"] = "Please enter your name.";
     }
@@ -25,6 +25,15 @@
     if (!state["message"]) {
       isValid = true;
       errors["message"] = "Please enter your message.";
+    }
+    if (!state["title"]) {
+      isValid = true;
+      errors["title"] = "Please enter your title.";
+    }
+
+    if (!state["description"]) {
+      isValid = true;
+      errors["description"] = "Please enter your description.";
     }
 
     

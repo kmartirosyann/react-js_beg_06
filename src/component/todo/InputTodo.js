@@ -2,8 +2,10 @@ import React from 'react'
 import { Row, Col, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import validation from '../vaidation/validation'
 import {isOpenMoalEdit} from '../../store/actions/onOffModale';
-import {addTodoItem , updateSinglPach} from '../../store/actions/actionReqvest'
+import {addTodoItem , updateSinglPach} from '../../store/actions/actionReqvest';
+
 
 
 const InputTodo = React.memo(({
@@ -17,23 +19,32 @@ const InputTodo = React.memo(({
     updateSinglPach
 }) => {
     
-    
+  
 const [change, setChangh] = React.useState({editData});
+const [valid, setValid] = React.useState({isValid:false})
 
 React.useEffect(()=>{
+    setValid(editData)
     if(!!_id){
  let arr = inputArray.find((item)=>item._id === _id);
  setChangh(arr)
     }
 },[_id])
 
+
+
 const handleClose =()=>{
     isOpenMoalEdit()
 };
-const handeleChange =(e)=>{
+const handeleChange =(e)=>{ 
     setChangh({...change,[e.target.name]:e.target.value})
-
+    
 };
+
+React.useEffect(() => {
+    let valid = validation(change);
+    setValid(valid); 
+}, [change])
 
 const handeleSubmit =()=>{
     const {title,description  } = change
@@ -48,7 +59,7 @@ const handeleSubmit =()=>{
   
     
     const {title,description }= change
-
+    
     return (
         <Row className="justify-content-center" >
             <Col className="my-3 input-group justify-content-center col-lg-6">
@@ -75,15 +86,24 @@ const handeleSubmit =()=>{
                             defaultValue={title}
                             onChange={handeleChange}
                             name="title"
+                           
                             
-                        /></Modal.Body>
+                        />
+                         <Form.Text style={{ color: "red" }}>
+                               {valid && valid.isValid && valid.errors.title}
+                            </Form.Text>
+                        </Modal.Body>
                     <Modal.Body>
                         <Form.Control as="textarea" rows={3}
                             id="textarea"
                             name="description"
                             defaultValue={description}
                             onChange={handeleChange}
+                           
                         />
+                         <Form.Text style={{ color: "red" }}>
+                               {valid && valid.isValid && valid.errors.description}
+                            </Form.Text>
                     </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
