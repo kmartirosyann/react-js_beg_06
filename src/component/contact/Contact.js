@@ -16,16 +16,25 @@ class Contact extends Component {
     handleChange = (e) => {
         const { changeContactForm } = this.props
         changeContactForm(e)
-       let valid = validation(this.props)
-       this.setState({valid})
+    const {name} =e.target
+        this.handelValid(name)
     }
 
     handelBlur = (e) => {
-        let valid = validation(this.props)
-        this.setState({valid})
+        const {name} =e.target
+        this.handelValid(name)
     }
 
-
+    handelValid =(name)=>{
+        let valid = validation( this.props,name)
+        this.setState({valid})
+    }
+componentDidUpdate(prevprops){
+  if(prevprops !== this.props){
+    let valid = validation( this.props)
+    this.setState({valid}) 
+  }
+}
 
     handleSubmit = () => {
 
@@ -38,10 +47,15 @@ class Contact extends Component {
         }
 
     }
-
+// componentDidUpdate(prevProps){
+//     if(prevProps !== this.props){
+//      let valid = validation(this.props)
+//         this.setState({valid})
+//     }
+// }
 
     render() {
-
+        
         const { name, email, message, loading } = this.props
          const {valid}=this.state
          const {errors,isValid}=valid

@@ -8,7 +8,7 @@ import {addTodoItem , updateSinglPach} from '../../store/actions/actionReqvest';
 
 
 
-const InputTodo = React.memo(({
+const InputTodo =({
     addTodoItem,
     editData,    
     show,
@@ -38,13 +38,19 @@ const handleClose =()=>{
 };
 const handeleChange =(e)=>{ 
     setChangh({...change,[e.target.name]:e.target.value})
-    
+    // const {name} =e.target
+    // handelValidet(name)
 };
 
-React.useEffect(() => {
-    let valid = validation(change);
+const handelBlur = (e)=>{
+    const {name} =e.target
+    handelValidet(name)
+}
+
+const handelValidet =  (name) => {
+    let valid = validation(change,name);
     setValid(valid); 
-}, [change])
+}
 
 const handeleSubmit =()=>{
     const {title,description  } = change
@@ -85,6 +91,7 @@ const handeleSubmit =()=>{
                             aria-describedby="basic-addon2"
                             defaultValue={title}
                             onChange={handeleChange}
+                            onBlur={handelBlur}
                             name="title"
                            
                             
@@ -99,6 +106,7 @@ const handeleSubmit =()=>{
                             name="description"
                             defaultValue={description}
                             onChange={handeleChange}
+                            onBlur={handelBlur}
                            
                         />
                          <Form.Text style={{ color: "red" }}>
@@ -120,7 +128,7 @@ const handeleSubmit =()=>{
     )
 
 }
-)
+
 
 const mapStateToProps =(state)=> ({
     show:state.modalReducer.show,
