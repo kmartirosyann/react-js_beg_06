@@ -1,5 +1,4 @@
 import * as actionTypes from './actionContactTypes';
-import validate from '../../component/vaidation/validation'
 
 export const changeContactForm = (data) => {
     return (dispatch) => {
@@ -8,23 +7,17 @@ export const changeContactForm = (data) => {
             peyload: data.target,
 
         });
-        dispatch({
-            type: actionTypes.FORM_VALID_DATA,
-            valid: validate,
-            peyload: data.target,
-        })
     }
 }
 
-export const contactOnBlur = (data) => {
-    return (dispatch) => {
-        dispatch({
-            type: actionTypes.ONBLUR_ERRORS,
-            peyload: data.target,
-            valid: validate
-        })
-    }
-}
+// export const contactOnBlur = (data) => {
+//     return (dispatch) => {
+//         dispatch({
+//             type: actionTypes.ONBLUR_ERRORS,
+//             peyload: data.target,
+//         })
+//     }
+// }
 
 export const contactSubmit = (name, email, message) => {
     return (dispatch) => {

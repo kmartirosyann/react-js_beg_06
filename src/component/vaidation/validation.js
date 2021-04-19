@@ -3,7 +3,6 @@
  const validate=(state)=>{
     let errors = {};
     let isValid = false;
-
     if (!state["name"]) {
       isValid = true;
       errors["name"] = "Please enter your name.";

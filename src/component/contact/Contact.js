@@ -2,29 +2,37 @@ import React, { Component } from 'react';
 import { Form, Button, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import './contact.modal.css';
-import { changeContactForm, contactOnBlur, contactSubmit } from '../../store/actions/actionContactReduser'
+import { changeContactForm, contactSubmit } from '../../store/actions/actionContactReduser'
+import validation from '../vaidation/validation'
 
 
 class Contact extends Component {
 
+    state={
+        valid:{},
+        
+    }
+
     handleChange = (e) => {
         const { changeContactForm } = this.props
         changeContactForm(e)
-
+       let valid = validation(this.props)
+       this.setState({valid})
     }
 
     handelBlur = (e) => {
-        const { contactOnBlur } = this.props
-        contactOnBlur(e)
-
+        let valid = validation(this.props)
+        this.setState({valid})
     }
 
 
 
     handleSubmit = () => {
 
-        const { name, email, message, isValit, contactSubmit } = this.props
-        if (!isValit) {
+        const { name, email, message,  contactSubmit } = this.props
+        const {valid}=this.state
+         const {isValid}=valid
+        if (!isValid) {
             contactSubmit(name, email, message)
 
         }
@@ -34,8 +42,9 @@ class Contact extends Component {
 
     render() {
 
-        const { name, email, message, loading, errors, isValit } = this.props
-
+        const { name, email, message, loading } = this.props
+         const {valid}=this.state
+         const {errors,isValid}=valid
         return (
             <Container style={{ width: "50%", textAlign: 'start' }}>
                 <Form className="align-self-start my-5 block-example border border-dark rounded-top p-2">
@@ -44,7 +53,7 @@ class Contact extends Component {
                         <Form.Group >
 
                             <Form.Control
-                                className={isValit && errors.name && "validet"}
+                                className={isValid && errors.name && "validet"}
                                 type="text"
                                 placeholder="Name"
                                 name="name"
@@ -53,12 +62,12 @@ class Contact extends Component {
                                 onBlur={this.handelBlur}
                             />
                             <Form.Text style={{ color: "red" }}>
-                                {isValit && errors.name}
+                                {isValid && errors.name}
                             </Form.Text>
                         </Form.Group>
                         <Form.Group >
                             <Form.Control
-                                className={isValit && errors.email && "validet"}
+                                className={isValid && errors.email && "validet"}
                                 type="email"
                                 placeholder="Email"
                                 name="email"
@@ -67,12 +76,12 @@ class Contact extends Component {
                                 onBlur={this.handelBlur}
                             />
                             <Form.Text style={{ color: "red" }}>
-                                {isValit && errors.email}
+                                {isValid && errors.email}
                             </Form.Text>
                         </Form.Group>
                         <Form.Group >
                             <Form.Control
-                                className={isValit && errors.message && "validet"}
+                                className={isValid && errors.message && "validet"}
                                 as="textarea"
                                 rows={3}
                                 style={{ resize: "none" }}
@@ -83,7 +92,7 @@ class Contact extends Component {
                             />
                         </Form.Group>
                         <Form.Text style={{ color: "red" }}>
-                            {isValit && errors.message}
+                            {isValid && errors.message}
                         </Form.Text>
                         <Button
                             variant="primary"
@@ -103,12 +112,10 @@ const mapStateToProps = (state) => ({
     name: state.contactReducer.name,
     email: state.contactReducer.email,
     message: state.contactReducer.message,
-    errors: state.contactReducer.errors,
-    isValit: state.contactReducer.isValit
+
 })
 const mapDispatchToProps = {
     changeContactForm,
-    contactOnBlur,
     contactSubmit
 }
 

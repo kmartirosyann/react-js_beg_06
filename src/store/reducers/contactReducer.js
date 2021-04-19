@@ -6,16 +6,9 @@ const inishelstate = {
     email: '',
     message: '',
     loading: false,
-    isValit: true,
     isLoader: false,
-    validet: {},
     successContact: '',
     contactError: '',
-    errors: {
-        name: '',
-        email: '',
-        comment: '',
-    }
 }
 
 const contactReducer = (state = inishelstate, action) => {
@@ -27,28 +20,7 @@ const contactReducer = (state = inishelstate, action) => {
                 ...state,
                 [name]: value,
             }
-
-        },
-        [actionTypes.ONBLUR_ERRORS]: () => {
-            let e = action.peyload
-            let { name } = e
-            return {
-                ...state,   
-                validet: action.valid(state),
-                isValit: state.validet.isValid,
-                errors: { [name]: state.validet.errors[name]}, 
-            }
-        },
-        [actionTypes.FORM_VALID_DATA]: () => {
-            let e = action.peyload
-            let { name } = e
-            return {
-                ...state,
-                validet: action.valid(state),
-                isValit: state.validet.isValid,
-                errors: {[name]: state.validet.errors} ,
-            }
-        },
+        },     
         [actionTypes.CONTACT_FORM_REQVEST]: () => ({
             ...state,
             isLoader: true,
