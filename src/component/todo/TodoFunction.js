@@ -35,9 +35,7 @@ class TodoFunction extends Component {
 const mapStateToProps =(state)=>({
     inputArrey:state.globaleReducer.inputArrey,
     isLoader:state.isLoader,
-    show:state.modalReducer.show,
-    modal:state.modalReducer.modal,
-    _id:state.modalReducer._id
+   
 })
 
 const mapDispatchToProps ={

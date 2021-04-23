@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import {isOpenMoalEdit,MoalComponent,select,censelDelete,AllSelectId} from '../../store/actions/onOffModale';
-import {deleteSinglePach} from '../../store/actions/actionReqvest';
+import {deleteSinglePach,reqvestChangeStatus} from '../../store/actions/actionReqvest';
+import DatePicker from 'react-datepicker';
 
  const TodoList = React.memo( ({ 
     inputArray, 
@@ -13,6 +14,7 @@ import {deleteSinglePach} from '../../store/actions/actionReqvest';
     MoalComponent, 
     AllSelectId, 
      censelDelete,
+     reqvestChangeStatus,
      active, 
      select,
      selectId,
@@ -44,8 +46,14 @@ import {deleteSinglePach} from '../../store/actions/actionReqvest';
     const allModallDelete =()=>{
         MoalComponent()
     }
-    const itemsArrey =inputArray && inputArray.map((item, index) => {
+    const changeStatus =(id, status)=>{
+        let itemStatus ='';
+        if(status === 'active') itemStatus = 'done'
+        else if(status === 'done') itemStatus = 'active'
+         reqvestChangeStatus(id,itemStatus)
+    }
 
+    const itemsArrey =inputArray && inputArray.map((item, index) => {
         return (
            
                 <Col key={index} className="input-group col-lg-4 ">
@@ -60,7 +68,14 @@ import {deleteSinglePach} from '../../store/actions/actionReqvest';
                     </Modal.Header>
 
                     <Modal.Body className="text-left">
-                        <p style={{lineBreak: "anywhere",overflow: "auto", height: "10vh"}}>{item.description}</p>
+                        <p style={{lineBreak: "anywhere",overflow: "auto"}}>{item.description}</p>
+                    </Modal.Body>
+                    <Modal.Body className="text-left">
+                        <DatePicker
+                        className="form-control"
+                        value={new Date(item.date).toDateString()} 
+                        readOnly = {true}
+                        />
                     </Modal.Body>
 
                     <Modal.Footer>
@@ -71,6 +86,14 @@ import {deleteSinglePach} from '../../store/actions/actionReqvest';
                         onClick = {()=>editItem(item._id)}
                         > 
                         <i className=" bi bi-pin-angle"></i>
+                        </Button>
+                        <Button 
+                        className={"btn-danger  input-group-text btn btn-danger"}
+                        disabled={active}
+                        onClick = {()=>changeStatus(item._id,item.status)}
+                        > 
+                       
+                     {item.status === "active"  ?   <i className="bi bi-check-circle"></i> : <i className="bi bi-arrow-repeat"></i>}
                         </Button>
                         <Button  
                         className="input-group-text btn btn-danger"
@@ -148,7 +171,8 @@ const mapDispatchToProps={
     MoalComponent,
     censelDelete,
     select,
-    AllSelectId
+    AllSelectId,
+    reqvestChangeStatus
 }
 
 TodoList.propTypes={

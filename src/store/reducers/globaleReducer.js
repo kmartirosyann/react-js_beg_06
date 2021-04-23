@@ -2,13 +2,14 @@ import * as actionTypes from '../actions/actionReqvestTypes';
 
 const inishelstate = {
     inputArray: [],
-    editData: { title: '', description: '', _id: '' },
+    editData: { title: '', description: '', _id: '', date: new Date() },
     isLoader: false,
     show: false,
     id: '',
     errMessage: '',
     singlArray: [],
-    successMessage: ''
+    successMessage: '',
+    sortData: {search:'','create_lte':''}
 }
 
 const globaleReducer = (state = inishelstate, action) => {
@@ -141,6 +142,35 @@ const globaleReducer = (state = inishelstate, action) => {
             isLoader: false,
             errMessage: action.error
         }),
+        [actionTypes.GET_TODO_SORT_REQUEST]: () => ({
+            ...state,
+            ...state.inputArray,
+            successMessage: '',
+            isLoader: true,
+        }),
+        [actionTypes.GET_TODO_SORT_SUCCESS]: () => ({
+            ...state,
+            inputArray: action.payload,
+            isLoader: false,
+            show: false
+        }),
+        [actionTypes.GET_TODO_SORT_FAILURE]: () => ({
+            ...state,
+            ...state.inputArray,
+            isLoader: false,
+            errMessage: action.error
+        }),
+        [actionTypes.CHANGE_SORT_DATA]: () => {
+            const { name, value } = action.payload
+            let arr = {...state.sortData,[name]: value}
+            return {
+                ...state,
+                sortData:arr
+            }
+        },
+        [actionTypes.REMUVE_STATE]:()=>({
+            ...inishelstate
+        })
 
 
     }

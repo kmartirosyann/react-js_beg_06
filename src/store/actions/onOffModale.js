@@ -53,3 +53,26 @@ export const AllSelectId = (arr) => {
         })
     }
 }
+
+export const clearItemId =()=>{
+    return (dispatch) => {
+        dispatch({
+            type: actionTypes.CLEAR_ID,
+        })
+    }
+}
+
+export const openShowSotrModal=()=>{
+    return (dispatch)=>{
+        dispatch({
+            type:actionTypes.OPEN_SORT_MODAL
+        })
+    }
+}
+export const closeShowSotrModal=()=>{
+    return (dispatch)=>{
+        dispatch({
+            type:actionTypes.CLOSE_SORT_MODAL
+        })
+    }
+}

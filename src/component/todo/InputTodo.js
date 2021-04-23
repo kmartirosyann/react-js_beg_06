@@ -3,8 +3,11 @@ import { Row, Col, Button, Modal, Form } from 'react-bootstrap';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import validation from '../vaidation/validation'
-import {isOpenMoalEdit} from '../../store/actions/onOffModale';
+import {isOpenMoalEdit,clearItemId} from '../../store/actions/onOffModale';
 import {addTodoItem , updateSinglPach} from '../../store/actions/actionReqvest';
+import DatePicker from "react-datepicker";
+
+
 
 
 
@@ -16,25 +19,31 @@ const InputTodo =({
     active,
     _id,
     inputArray,
-    updateSinglPach
+    updateSinglPach,
+    clearItemId
+
 }) => {
     
-  
-const [change, setChangh] = React.useState({editData});
+const [change, setChangh] = React.useState(editData);
 const [valid, setValid] = React.useState({isValid:false})
 
-React.useEffect(()=>{
+const id = !!_id
+
+React.useEffect(()=>{ 
     setValid(editData)
-    if(!!_id){
+    if(_id){
  let arr = inputArray.find((item)=>item._id === _id);
  setChangh(arr)
-    }
-},[_id])
+    }else setChangh(editData)
+},[id])
 
 
 
 const handleClose =()=>{
     isOpenMoalEdit()
+    clearItemId()
+   
+
 };
 const handeleChange =(e)=>{ 
     setChangh({...change,[e.target.name]:e.target.value})
@@ -52,20 +61,27 @@ const handelValidet =  (name) => {
     setValid(valid); 
 }
 
+const setNewDate = (date)=>{
+    setChangh({...change,date})
+}
+
 const handeleSubmit =()=>{
-    const {title,description  } = change
+    const {title,description ,date } = change
+    let newDate = date.toISOString().slice(0,10)
+    if (valid && !valid.isValid){
     if(!!_id){
-        updateSinglPach(title,description,_id)
+        updateSinglPach(title,description,newDate ,_id,)
     }else {  
-    addTodoItem(title,description )
+    addTodoItem(title,description,newDate )
     }
+
     isOpenMoalEdit()
-    setChangh({title:'',description :''})
+    setChangh({title:'',description :'',date:new Date()})
+}
 };
   
     
-    const {title,description }= change
-    
+    const {title,description,date }= change
     return (
         <Row className="justify-content-center" >
             <Col className="my-3 input-group justify-content-center col-lg-6">
@@ -113,6 +129,19 @@ const handeleSubmit =()=>{
                                {valid && valid.isValid && valid.errors.description}
                             </Form.Text>
                     </Modal.Body>
+                    <Modal.Body>
+                    <DatePicker 
+                    className= "form-control"
+                    selected={new Date(date) || date} 
+                    onChange={date => setNewDate(date)}
+                    onBlur={date => setNewDate(date)}
+                    name = "startDate"
+                    value ={ new Date(date) || date}
+                    />
+                     <Form.Text style={{ color: "red" }}> {
+                     valid && valid.isValid && valid.errors.description
+                     }</Form.Text>
+                    </Modal.Body>
                     <Modal.Footer>
                         <Button variant="secondary" onClick={handleClose}>
                             Close
@@ -134,13 +163,15 @@ const mapStateToProps =(state)=> ({
     show:state.modalReducer.show,
     _id:state.modalReducer._id,
     inputArray:state.globaleReducer.inputArray,
-    active:state.modalReducer.active
+    active:state.modalReducer.active,
+    editData:state.globaleReducer.editData
 })
 
 const mapDispatchToProps = {
     isOpenMoalEdit, 
     addTodoItem ,
-    updateSinglPach
+    updateSinglPach,
+    clearItemId
 }
 
 

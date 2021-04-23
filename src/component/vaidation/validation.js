@@ -1,7 +1,6 @@
 
 
  const validate=(state,name)=>{
-   console.log(name)
     let errors = {};
     let isValid = false;
     if (!state["name"] && name === "name" ) {

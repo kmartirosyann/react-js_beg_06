@@ -1,11 +1,12 @@
 import TodoFunction from "./component/todo/TodoFunction";
-import Navbar from "./component/navbar/Navbar";
+import NavBar from "./component/navbar/Navbar";
 import { BrowserRouter as Router, Redirect, Route, Switch } from "react-router-dom";
 import Home from "./component/home/Home";
 import Signin from "./component/login/Signin";
 import SiginUp from "./component/login/SiginUp";
 import NotFoutnd from "./component/notFound/NotFoutnd";
 import SinglPach from "./component/singlPach/SinglPach";
+import SortdataModalTodo from './component/modal/SortDataModalTodo'
 import Contact from "./component/contact/Contact";
 import { MovieProvider } from "./component/context/MovieContext";
 import { ToastContainer, toast } from 'react-toastify';
@@ -53,9 +54,10 @@ React.useEffect(()=>{
        
      
       <Router>
-        <Navbar />
+        <NavBar />
         <ToastContainer 
         />
+        <SortdataModalTodo/>
         <Switch>
           <Route path="/contact" component={Contact} exact />
           <Route path="/siginup" component={SiginUp} exact />

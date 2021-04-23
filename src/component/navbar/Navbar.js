@@ -1,18 +1,38 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React from 'react';
+import { Nav,Navbar} from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import SortTodo from '../sortTodo/SortTodo';
 
 
 
-export default function Navbar() {
+export default function NavBar() {
+ 
     return (
+    
+      <Navbar bg="dark" variant="dark"className="mr-auto">
+      <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+      <Nav className="mr-auto">
+        <Link to="/" className="pl-3">Home</Link>
+      <Link to="/signin" className="pl-3">Sign in</Link>
+      <Link to="/siginup" className="pl-3">Sigin up</Link>
+      <Link to="/todo" className="pl-3">Todo</Link>
+      <Link to="/contact" className="pl-3">Contact</Link>
+      </Nav>
+     <SortTodo/>
+    </Navbar>
+      
+    )
+}
 
-<nav className="Light navbar navbar-expand-lg navbar-light bg-dark" >
+
+{/* <nav className="Light navbar navbar-expand-lg navbar-light bg-dark" >
   <div className=" Light container-fluid">
     <NavLink 
     className="navbar-Light" 
      activeStyle={{
     fontWeight: "bold",
     color: "#fff"
+
   }} to= '/'>Home</NavLink>    
     <div className=" Light container-fluid container-sm" id="navbarNav">
       <ul className=" navbar-nav">
@@ -67,10 +87,4 @@ export default function Navbar() {
       </ul>
     </div>
   </div>
-</nav>
-
-
-
-      
-    )
-}
+</nav> */}

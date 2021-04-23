@@ -6,10 +6,11 @@ const inishelstate = {
     modal: false,
     show: false,
     active: false,
+    sortModal: false,
     errMesage: '',
     _id: '',
     selectId: [],
-    
+
 }
 
 const modalRducer = (state = inishelstate, action) => {
@@ -31,7 +32,7 @@ const modalRducer = (state = inishelstate, action) => {
             ...state,
             modal: false,
             selectId: [],
-            _id:'',
+            _id: '',
             active: false
         }),
         [actionTypes.ADD_ALL_ITEMS]: () => {
@@ -56,10 +57,22 @@ const modalRducer = (state = inishelstate, action) => {
             selectId: [],
             active: false
         }),
-        [actionTypes.SELEKT_ALL_ID]:()=>({
+        [actionTypes.SELEKT_ALL_ID]: () => ({
             ...state,
-            selectId:action.payload,
-            active:true
+            selectId: action.payload,
+            active: true
+        }),
+        [actionTypes.CLEAR_ID]: () => ({
+            ...state,
+            _id: ''
+        }),
+        [actionTypes.OPEN_SORT_MODAL]: () => ({
+            ...state,
+            sortModal: true
+        }),
+        [actionTypes.CLOSE_SORT_MODAL]: () => ({
+            ...state,
+            sortModal: false
         })
 
 
