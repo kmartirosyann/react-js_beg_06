@@ -125,7 +125,7 @@ export const getSinglPach = (id) => {
 export const getTodoItems = () => {
   return (dispatch) => {
     dispatch({ type: actionTypes.GET_TODO_ITEMS_REQUEST });
-    return fetch('${API_HOST}/task', {
+    return fetch(`${API_HOST}/task`, {
       method: "GET"
     })
       .then(res => res.json())
