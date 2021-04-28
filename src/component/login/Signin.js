@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import { Form, Button, Container, Row, Col } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Form, Button, Container, Row, Col } from 'react-bootstrap';
+
+const API_HOST = process.env.REACT_APP_API_HOST;
 
 
 class Signin extends Component {
@@ -31,7 +33,7 @@ class Signin extends Component {
     } else if (password !== rePassword) {
       err.set('rePassword', "passport do not match repassport")
     } else {
-      fetch('http://localhost:3001/user', {
+      fetch(`${API_HOST}/user`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, name: firstName, surname: lastName, confirmPassword: rePassword })

@@ -1,5 +1,7 @@
-import React, { Component } from 'react'
-import { Form, Button, Container } from 'react-bootstrap'
+import React, { Component } from 'react';
+import { Form, Button, Container } from 'react-bootstrap';
+
+const API_HOST = process.env.REACT_APP_API_HOST;
 
 class SiginUp extends Component {
     state = {
@@ -13,7 +15,7 @@ class SiginUp extends Component {
 
     handleSubmit = () => {
         const { email, password, mesage } = this.state
-        fetch('http://localhost:3001/user/sign-in', {
+        fetch(`${API_HOST}/user/sign-in`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, password })

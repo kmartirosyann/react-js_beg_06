@@ -1,9 +1,11 @@
 import * as actionTypes from './actionReqvestTypes';
 
+const API_HOST = process.env.REACT_APP_API_HOST;
+
 export const updateSinglPach = (title, description, date, id ,) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.UPDATE_TODOITEM_REQUEST });
-    return fetch(`http://localhost:3001/task/${id}`, {
+    return fetch(`${API_HOST}/task/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, description,date })
@@ -28,7 +30,7 @@ export const updateSinglPach = (title, description, date, id ,) => {
 export const reqvestChangeStatus = ( id,status ) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.UPDATE_TODOITEM_REQUEST });
-    return fetch(`http://localhost:3001/task/${id}`, {
+    return fetch(`${API_HOST}/task/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ status })
@@ -56,7 +58,7 @@ export const deleteSinglePach = (id) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.DELETE_SINGLPACH_REQUEST });
 
-    fetch(`http://localhost:3001/task/${id}`, {
+    fetch(`${API_HOST}/task/${id}`, {
       method: "DELETE",
     })
       .then(res => res.json())
@@ -80,7 +82,7 @@ export const deleteSinglePach = (id) => {
 export const deleteAllTodo = (arr) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.DELETE_ALL_TODO_REQUEST });
-    fetch(`http://localhost:3001/task`, {
+    fetch(`${API_HOST}/task`, {
       method: "PATCH",
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ tasks: arr })
@@ -106,7 +108,7 @@ export const deleteAllTodo = (arr) => {
 export const getSinglPach = (id) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.GET_SINGLPACH_DATA });
-    return fetch(`http://localhost:3001/task/${id}`, {
+    return fetch(`${API_HOST}/task/${id}`, {
       method: "GET"
     })
       .then(res => res.json())
@@ -123,7 +125,7 @@ export const getSinglPach = (id) => {
 export const getTodoItems = () => {
   return (dispatch) => {
     dispatch({ type: actionTypes.GET_TODO_ITEMS_REQUEST });
-    return fetch('http://localhost:3001/task', {
+    return fetch('${API_HOST}/task', {
       method: "GET"
     })
       .then(res => res.json())
@@ -140,7 +142,7 @@ export const getTodoItems = () => {
 export const addTodoItem = (title, description,date) => {
   return (dispatch) => {
     dispatch({ type: actionTypes.ADD_TODOITEM_REQUEST });
-    return fetch('http://localhost:3001/task', {
+    return fetch(`${API_HOST}/task`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ title, description ,date})
@@ -169,7 +171,7 @@ export const sortSubmit = (sortData) => {
     }
   return (dispatch) => {
     dispatch({ type: actionTypes.GET_TODO_SORT_REQUEST });
-    return fetch(`http://localhost:3001/task${query}`, {
+    return fetch(`${API_HOST}/task${query}`, {
       method: "GET"
     })
       .then(res => res.json())
