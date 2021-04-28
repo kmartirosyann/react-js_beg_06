@@ -11,6 +11,7 @@ export const PUT_DATA = "PUT_DATA";
 export const PUT_DATA_ITEM = "PUT_DATA_ITEM";
 export const DELETE_DATA_ITEM = "DELETE_DATA_ITEM";
 
+const API_HOST = process.env.REACT_APP_API_HOST;
 
 const initialState = {
   data: [],
@@ -73,7 +74,7 @@ export const MovieProvider = (props) => {
   const [state, dispatch] = React.useReducer(reducer, initialState);
   const {id } = state
   React.useEffect(()=>{
-    fetch(`http://localhost:3001/task/${id}`, {
+    fetch(`${API_HOST}/task/${id}`, {
             method: "GET"
         })
             .then(res => res.json())

@@ -15,7 +15,7 @@ export const contactSubmit = (name, email, message) => {
         dispatch({
             type: actionTypes.CONTACT_FORM_REQVEST,
         })
-        return fetch('http://localhost:3001/form', {
+        return fetch(`${API_HOST}/form`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ name, email, message })
