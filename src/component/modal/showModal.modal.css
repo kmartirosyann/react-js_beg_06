@@ -1,0 +1,16 @@
+fieldset{
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 0 .5rem .5rem;
+}
+
+legend{
+    width: auto;
+    padding: 5px;
+    font-size: 12px;
+    font-weight: 600;
+}
+select{
+    width: 61%;
+    height: 30px;
+}
