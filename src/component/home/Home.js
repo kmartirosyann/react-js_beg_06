@@ -25,7 +25,7 @@ class Home extends Component {
                                         Karen Martirosyan
                                      </h1>
                                     <h6 className={classes.text}>
-                                    Front End Developer
+                                        Front End Developer
                                       </h6>
                                     <HeaderCv />
                                 </div>
@@ -69,6 +69,7 @@ class Home extends Component {
                                     • Preparation of daily, quarterly and annual financial reports for Managers, • Handled an employee wages calculation and managed employee expense  reimbursements and handled banks loan documentation for the company, • Participated on the process of changing the company's policies and procedures.
                                     </p>
                                     <h2>Education  </h2>
+                                    <h6 className='mt-4'> Sunny School - Education Center </h6>
                                     <h6 className='mt-4'> Bit School-Software Engineering School </h6>
                                     <h6 className='mt-4'>Master, Armenian National Agrarian University</h6>
                                 </div>
@@ -95,26 +96,29 @@ class Home extends Component {
                                 <h1>Skills  </h1>
                                 <ul>
                                     <li>
-                                    JavaScript/ES6 
+                                        NodeJs
                                     </li>
                                     <li>
-                                    ReactJs/Redux 
+                                        JavaScript/ES6
                                     </li>
                                     <li>
-                                    HTML/CSS 
+                                        ReactJs/Redux
+                                    </li>
+                                    <li>
+                                        HTML/CSS
                                     </li>
                                 </ul>
 
                                 <h1>Languages   </h1>
                                 <ul>
                                     <li>
-                                    Armenian 
+                                        Armenian
                                     </li>
                                     <li>
-                                    Russian 
+                                        Russian
                                     </li>
                                     <li>
-                                    English
+                                        English
                                     </li>
                                 </ul>
                             </div>
