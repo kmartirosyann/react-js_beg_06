@@ -1,6 +1,6 @@
 import React from 'react';
 import { Nav,Navbar} from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import SortTodo from '../sortTodo/SortTodo';
 
 
@@ -9,14 +9,34 @@ export default function NavBar() {
  
     return (
     
-      <Navbar bg="dark" variant="dark"className="mr-auto">
-      <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+      <Navbar bg="dark" variant="dark"className="mr-auto p-0">
       <Nav className="mr-auto">
-        <Link to="/" className="pl-3">Home</Link>
-      <Link to="/signin" className="pl-3">Sign in</Link>
-      <Link to="/siginup" className="pl-3">Sigin up</Link>
-      <Link to="/todo" className="pl-3">Todo</Link>
-      <Link to="/contact" className="pl-3">Contact</Link>
+      <NavLink  className="px-3" 
+     activeStyle={{
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor:"#17191b"
+  }} to="/" className="px-3">About</NavLink>
+      <NavLink activeStyle={{
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor:"#17191b"
+  }} to="/signin" className="px-3">Sign in</NavLink>
+      <NavLink activeStyle={{
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor:"#17191b"
+  }} to="/siginup" className="px-3">Sigin up</NavLink>
+      <NavLink activeStyle={{
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor:"#17191b"
+  }} to="/todo" className="px-3">Todo</NavLink>
+      <NavLink activeStyle={{
+    fontWeight: "bold",
+    color: "#fff",
+    backgroundColor:"#17191b"
+  }} to="/contact" className="px-3">Contact</NavLink>
       </Nav>
      <SortTodo/>
     </Navbar>
@@ -24,67 +44,3 @@ export default function NavBar() {
     )
 }
 
-
-{/* <nav className="Light navbar navbar-expand-lg navbar-light bg-dark" >
-  <div className=" Light container-fluid">
-    <NavLink 
-    className="navbar-Light" 
-     activeStyle={{
-    fontWeight: "bold",
-    color: "#fff"
-
-  }} to= '/'>Home</NavLink>    
-    <div className=" Light container-fluid container-sm" id="navbarNav">
-      <ul className=" navbar-nav">
-        <li className="nav-item">
-          <NavLink 
-          className=" Light nav-link active"
-           activeStyle={{
-            fontWeight: "bold",
-            color: "#fff"
-          }}
-           aria-current="page" to="/signin">Signin</NavLink>
-        </li>
-        <li className="nav-item">
-        <NavLink 
-        className="Light nav-link active"
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }}
-          aria-current="page" 
-         to="/siginup"
-         >
-           Siginup
-         </NavLink>
-        </li>
-        <li className="nav-item">
-        <NavLink 
-        className="Light nav-link active"
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }} 
-         aria-current="page" 
-        to="/todo"
-        >
-          Todo
-          </NavLink>
-        </li>
-        <li className="nav-item">
-        <NavLink 
-        className="Light nav-link active" 
-        activeStyle={{
-          fontWeight: "bold",
-          color: "#fff"
-        }}
-        aria-current="page" 
-        to="/contact"
-        >
-          Contact
-          </NavLink>
-        </li>
-      </ul>
-    </div>
-  </div>
-</nav> */}

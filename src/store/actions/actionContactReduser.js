@@ -1,4 +1,5 @@
 import * as actionTypes from './actionContactTypes';
+const API_HOST = process.env.REACT_APP_API_HOST;
 
 export const changeContactForm = (data) => {
     return (dispatch) => {
