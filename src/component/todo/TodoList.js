@@ -59,7 +59,7 @@ import DatePicker from 'react-datepicker';
                 <Col key={index} className="input-group col-lg-4 ">
                 <Modal.Dialog  style= {{width : "100%"}}>
                     <Modal.Header >
-                      <Link to={`/sinlPach/${item._id}`}> <Modal.Title>{item.title}</Modal.Title></Link> 
+                      <Link to={`/sinlPach/${item._id}`} style={{color:"#000"}}> <Modal.Title>{item.title}</Modal.Title></Link> 
                         <input 
                         type="checkbox" 
                         onChange={ () => hendelechange(item._id)} 

@@ -57,6 +57,7 @@ function SortTodo({
                 <Button
                     variant="outline-success"
                     onClick={resetReqvest}
+                    className="mr-3"
                 >
                     <i className="bi bi-trash-fill"></i>
                 </Button>

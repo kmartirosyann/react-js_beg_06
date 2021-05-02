@@ -36,6 +36,7 @@ export default function NavBar() {
     fontWeight: "bold",
     color: "#fff",
     backgroundColor:"#17191b"
+    
   }} to="/contact" className="px-3">Contact</NavLink>
       </Nav>
      <SortTodo/>

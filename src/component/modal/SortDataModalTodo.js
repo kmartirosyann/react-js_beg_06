@@ -25,7 +25,6 @@ function SortDataTodo({
     }
     const handleChangeDay = (name, value) => {
         let date = { name, value }
-
         changeSortData(date)
     }
     const handleSearch = () => {
@@ -43,6 +42,7 @@ function SortDataTodo({
         resetData()
         getTodoItems()
     }
+ 
     return (
         <div>
             <Modal show={sortModal} aria-labelledby="contained-modal-title-vcenter">

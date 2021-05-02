@@ -9,7 +9,7 @@ const inishelstate = {
     errMessage: '',
     singlArray: [],
     successMessage: '',
-    sortData: {search:'','create_lte':''}
+    sortData: {}
 }
 
 const globaleReducer = (state = inishelstate, action) => {
