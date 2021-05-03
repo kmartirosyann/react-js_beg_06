@@ -1,5 +1,6 @@
 import React from 'react'
-import { Col, Row, Button ,Modal} from 'react-bootstrap'
+import { Col, Row, Button ,Modal} from 'react-bootstrap';
+import classes from "./todo.module.css"
 import TodoLoader from '../loader/TodoLoader';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
@@ -71,7 +72,14 @@ import DatePicker from 'react-datepicker';
                         <p style={{lineBreak: "anywhere",overflow: "auto"}}>{item.description}</p>
                     </Modal.Body>
                     <Modal.Body className="text-left">
+                    <label className={classes.fs}>Created Day: </label>
                         <DatePicker
+                        className="form-control"
+                        value={new Date(item.created_at).toDateString()} 
+                        readOnly = {true}
+                        />
+                        <label className={classes.fs}>Select Date: </label>
+                          <DatePicker
                         className="form-control"
                         value={new Date(item.date).toDateString()} 
                         readOnly = {true}
