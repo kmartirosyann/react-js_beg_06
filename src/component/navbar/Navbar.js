@@ -56,6 +56,9 @@ import { withRouter } from 'react-router-dom';
   <NavLink to="/siginup" className="list-group-item list-group-item-action">Sigin up</NavLink>
   <NavLink to="/todo" className="list-group-item list-group-item-action" >Todo</NavLink>
   <NavLink to="/contact" className="list-group-item list-group-item-action" >Contact</NavLink>
+  {history.location.pathname === "/todo" &&  <NavLink  className="list-group-item list-group-item-action">
+   <SortTodo/>
+    </NavLink>  }
   </div>}
 </div>
      </> 
