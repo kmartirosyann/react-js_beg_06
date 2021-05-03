@@ -1,0 +1,20 @@
+@media screen and (max-width: 1023px) {
+   .navlinkLong{
+       display: none;
+   }
+ 
+}
+
+@media screen and (min-width: 1023px) {
+.navlinkMobale{
+    display: none;
+}
+}
+.navlinkMobale{
+    width: max-content;
+}
+.boxMobale{
+    position: fixed;
+    z-index: 5;
+    margin-top: 35px;
+}

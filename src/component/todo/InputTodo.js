@@ -20,7 +20,8 @@ const InputTodo =({
     _id,
     inputArray,
     updateSinglPach,
-    clearItemId
+    clearItemId,
+    history
 
 }) => {
     
@@ -67,7 +68,11 @@ const setNewDate = (date)=>{
 
 const handeleSubmit =()=>{
     const {title,description ,date } = change
-    let newDate = date.toISOString().slice(0,10)
+    let newDate;
+   if(typeof date !== String){
+    newDate = date.slice(0,10)
+   }else  newDate = date.toISOString().slice(0,10)
+    
     if (valid && !valid.isValid){
     if(!!_id){
         updateSinglPach(title,description,newDate ,_id,)

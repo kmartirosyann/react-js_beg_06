@@ -10,21 +10,21 @@ class Home extends Component {
 
     render() {
         return (
-            <div className='container my-3 border border-secondary pt-3'>
-                <header className={classes.aboutSection} >
+            <div className='container my-3 border border-secondary pt-3 '>
+                <header className={`${classes.aboutSection}  `} >
                     <div className={classes.headerCv}>
                         <div className="row">
-                            <div className="col-sm-3 mt-3">
+                            <div className="col-md-3 mt-3">
                                 <div className={classes.photo}>
                                     <img src={logo} alt='' className={classes.responsive} />
                                 </div>
                             </div>
-                            <div className="col-sm jstfine-content-start">
+                            <div className="col-md-8 ml-3">
                                 <div>
-                                    <h1 className={classes.text}>
+                                    <h1 className={`${classes.text} ml-4`}>
                                         Karen Martirosyan
                                      </h1>
-                                    <h6 className={classes.text}>
+                                    <h6 className={`${classes.text} ml-4`}>
                                         Front End Developer
                                       </h6>
                                     <HeaderCv />
@@ -36,7 +36,7 @@ class Home extends Component {
 
                 <section className={classes.resume}>
                     <div className="row">
-                        <div className="col-sm-8 mt-3">
+                        <div className="col-xl-8 mt-3">
                             <div className={classes.colume}>
                                 <div className={classes.treeFourth} >
                                     <div className={classes.objective}>
@@ -76,7 +76,7 @@ class Home extends Component {
                             </div>
 
                         </div>
-                        <div className="col-sm-4 mt-4">
+                        <div className="col-xl-4 mt-4">
                             <div className={classes.ridthBox}>
                                 <h1>Links </h1>
                                 <ul>

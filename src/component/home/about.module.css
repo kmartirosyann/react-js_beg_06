@@ -50,7 +50,7 @@
     vertical-align: top;
     border-right: 0.25em solid transparent;
     min-width: 80px;
-    max-width: 200px;
+    line-height: 2.2rem;
     border: none;
     padding: 1px 0;
 }
