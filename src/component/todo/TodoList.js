@@ -68,19 +68,20 @@ import DatePicker from 'react-datepicker';
                          />
                     </Modal.Header>
 
-                    <Modal.Body className="text-left">
+                    <Modal.Body className="text-left pb-0">
                         <p style={{lineBreak: "anywhere",overflow: "auto"}}>{item.description}</p>
+                        <p style={{lineBreak: "anywhere",overflow: "auto"}}>status : {item.status}</p>
                     </Modal.Body>
-                    <Modal.Body className="text-left">
-                    <label className={classes.fs}>Created Day: </label>
+                    <Modal.Body className="text-left pt-0">
+                    <label className={classes.fs}>Created at: </label>
                         <DatePicker
-                        className="form-control"
+                        className={`form-control ${classes.day}`}
                         value={new Date(item.created_at).toDateString()} 
                         readOnly = {true}
                         />
-                        <label className={classes.fs}>Select Date: </label>
+                        <label className={classes.fs}> Date: </label>
                           <DatePicker
-                        className="form-control"
+                        className={`form-control ${classes.day}`}
                         value={new Date(item.date).toDateString()} 
                         readOnly = {true}
                         />

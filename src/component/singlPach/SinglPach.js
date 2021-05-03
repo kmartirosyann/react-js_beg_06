@@ -9,6 +9,7 @@ import { getSinglPach } from '../../store/actions/actionReqvest';
 import { isOpenMoalEdit, MoalComponent } from '../../store/actions/onOffModale';
 import { reqvestChangeStatus } from '../../store/actions/actionReqvest';
 import DatePicker from 'react-datepicker';
+import classes from './singlPatch.module.css'
 
 
 
@@ -23,7 +24,7 @@ function SinglPach(props) {
         }
     });
 
-    
+
     React.useEffect(() => {
         getSinglPach(id)
       
@@ -61,8 +62,16 @@ function SinglPach(props) {
                         </Modal.Header>
 
                         <Modal.Body className="text-left">
-                            <p style={{ lineBreak: "anywhere", overflow: "auto", height: "10vh" }}>{inputs.description}</p>
+                            <p className={classes.text} style={{ lineBreak: "anywhere", overflow: "auto",borderBottom: "1px solid" }}>{inputs.description}</p>
+                            <p className={classes.text} style={{ lineBreak: "anywhere", overflow: "auto"}}>status : {inputs.status}</p>
+                            <label className={classes.fs}>Created at : </label>
                             <DatePicker
+                                className="form-control"
+                                value={new Date(inputs.created_at).toDateString()}
+                                readOnly={true}
+                            />
+                            <label className={classes.fs}> Date : </label>
+                             <DatePicker
                                 className="form-control"
                                 value={new Date(inputs.date).toDateString()}
                                 readOnly={true}

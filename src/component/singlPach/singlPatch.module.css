@@ -1,0 +1,10 @@
+.text{
+    display: flex;
+    align-items: center;
+    
+}
+
+.fs{
+    font-size: 11px;
+    width: 100%;
+}
