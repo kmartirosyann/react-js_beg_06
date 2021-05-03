@@ -13,14 +13,21 @@ import DatePicker from 'react-datepicker';
 
 
 function SinglPach(props) {
-    const { singlArray, isOpenMoalEdit, MoalComponent, reqvestChangeStatus, show } = props
+    const { getSinglPach, singlArray, isOpenMoalEdit, MoalComponent, reqvestChangeStatus, show } = props
     const [inputs, setInputs] = React.useState({})
     const { id } = props.match.params
     React.useEffect(() => {
         if (inputs !== singlArray) {
+            
             setInputs(singlArray)
         }
     });
+
+    
+    React.useEffect(() => {
+        getSinglPach(id)
+      
+    },[id]);
 
     const editItem = (id) => {
         isOpenMoalEdit(id)
