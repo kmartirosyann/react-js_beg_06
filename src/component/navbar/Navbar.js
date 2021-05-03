@@ -3,11 +3,13 @@ import React from 'react';
 import { Nav,Navbar} from 'react-bootstrap';
 import { NavLink } from 'react-router-dom';
 import SortTodo from '../sortTodo/SortTodo';
-import classes from './navBar.module.css'
+import classes from './navBar.module.css';
+import { withRouter } from 'react-router-dom';
 
 
 
-export default function NavBar() {
+
+ function NavBar({history}) {
  const [state, setstate] = React.useState(false)
  const onOpenNavbar = ()=>{
   setstate(!state)
@@ -44,7 +46,7 @@ export default function NavBar() {
     
   }} to="/contact" className="px-3">Contact</NavLink>
       </Nav>
-     <SortTodo/>
+    {history.location.pathname === "/todo" &&  <SortTodo/>}
     </Navbar>
     <div id="list-example" className={`list-group ${classes.navlinkMobale}`}>
       <Button onClick={onOpenNavbar}> <i className="bi bi-justify p-3"></i></Button>
@@ -60,3 +62,4 @@ export default function NavBar() {
     )
 }
 
+export default withRouter(NavBar)
