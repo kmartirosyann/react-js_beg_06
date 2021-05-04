@@ -21,7 +21,6 @@ const InputTodo =({
     inputArray,
     updateSinglPach,
     clearItemId,
-    history
 
 }) => {
     
@@ -48,8 +47,7 @@ const handleClose =()=>{
 };
 const handeleChange =(e)=>{ 
     setChangh({...change,[e.target.name]:e.target.value})
-    // const {name} =e.target
-    // handelValidet(name)
+
 };
 
 const handelBlur = (e)=>{
@@ -68,12 +66,7 @@ const setNewDate = (date)=>{
 
 const handeleSubmit =()=>{
     const {title,description ,date } = change
-    let newDate;
-   if(typeof date === String){
-    newDate = date.slice(0,10)
-   }
-   if (typeof date === Object)  newDate = date.toISOString().slice(0,10)
-    
+    let newDate =new Date(date).toISOString().slice(0,10)
     if (valid && !valid.isValid){
     if(!!_id){
         updateSinglPach(title,description,newDate ,_id,)
@@ -142,7 +135,8 @@ const handeleSubmit =()=>{
                     onChange={date => setNewDate(date)}
                     onBlur={date => setNewDate(date)}
                     name = "startDate"
-                    value ={ new Date(date) || date}
+
+                    //value ={ new Date(date) || date}
                     />
                      <Form.Text style={{ color: "red" }}> {
                      valid && valid.isValid && valid.errors.description
